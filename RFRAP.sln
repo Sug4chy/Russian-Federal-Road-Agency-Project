@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFRAP.Web", "RFRAP.Web\RFRAP.Web.csproj", "{8D9C5E91-4BCC-49A9-8DA6-A6D9D378A9F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFRAP.Domain", "RFRAP.Domain\RFRAP.Domain.csproj", "{FA4D39C6-C96B-46AD-9D1A-8585F82DACC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFRAP.Data", "RFRAP.Data\RFRAP.Data.csproj", "{A16A4EDA-2705-4FAB-9617-D89644213B62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D9C5E91-4BCC-49A9-8DA6-A6D9D378A9F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D9C5E91-4BCC-49A9-8DA6-A6D9D378A9F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D9C5E91-4BCC-49A9-8DA6-A6D9D378A9F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D9C5E91-4BCC-49A9-8DA6-A6D9D378A9F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA4D39C6-C96B-46AD-9D1A-8585F82DACC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4D39C6-C96B-46AD-9D1A-8585F82DACC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4D39C6-C96B-46AD-9D1A-8585F82DACC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4D39C6-C96B-46AD-9D1A-8585F82DACC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A16A4EDA-2705-4FAB-9617-D89644213B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16A4EDA-2705-4FAB-9617-D89644213B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16A4EDA-2705-4FAB-9617-D89644213B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16A4EDA-2705-4FAB-9617-D89644213B62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
