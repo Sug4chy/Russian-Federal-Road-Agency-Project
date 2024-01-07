@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RFRAP.Data.Context;
-using RFRAP.Data.Interfaces;
 
 namespace RFRAP.Data.Repositories;
 

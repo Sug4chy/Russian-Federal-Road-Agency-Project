@@ -1,7 +1,11 @@
-﻿namespace RFRAP.Data.Entities;
+﻿using RFRAP.Data.Entities.Audits;
 
-public class City
+namespace RFRAP.Data.Entities;
+
+public class City : AuditableEntity
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+    public required string Name { get; set; }
+    public ICollection<Road>? RoadsFrom { get; set; }
+    public ICollection<Road>? RoadsTo { get; set; }
 }

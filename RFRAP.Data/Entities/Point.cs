@@ -1,11 +1,7 @@
-﻿using NpgsqlTypes;
+﻿namespace RFRAP.Data.Entities;
 
-namespace RFRAP.Data.Entities;
-
-public class Point
+public readonly struct Point(double x, double y)
 {
-    public Guid Id { get; set; }
-    public NpgsqlPoint Coordinates { get; set; }
-    public Guid RoadId { get; set; }
-    public string PointType { get; set; }
+    public double X => x;
+    public double Y => y;
 }
