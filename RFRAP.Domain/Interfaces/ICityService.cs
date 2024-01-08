@@ -1,10 +1,11 @@
-﻿using RFRAP.Domain.DTO;
+﻿using RFRAP.Data.Entities;
+using RFRAP.Domain.DTO;
 
 namespace RFRAP.Domain.Interfaces;
 
 public interface ICityService
 {
-    Task<CityDTO?> GetCityById(Guid id);
-    Task<ICollection<CityDTO>> GetAllCities();
-    Task CreateCity(CityDTO cityDTO, CancellationToken ct);
+    Task<City?> GetCityByIdAsync(Guid id, CancellationToken ct);
+    Task<ICollection<City>> GetAllCitiesAsync(CancellationToken ct);
+    Task CreateCityAsync(CityDTO cityDTO, CancellationToken ct);
 }

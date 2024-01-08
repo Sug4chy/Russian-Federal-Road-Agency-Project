@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using RFRAP.Data.Entities;
 using RFRAP.Data.Repositories;
 using RFRAP.Domain.DTO;
@@ -9,22 +8,22 @@ namespace RFRAP.Domain.Services;
 
 public class CityService(IRepository<City> repository, IMapper mapper) : ICityService
 {
-    public async Task<CityDTO?> GetCityById(Guid id)
+    public async Task<City?> GetCityByIdAsync(Guid id, CancellationToken ct = default)
     {
         var collection = await repository.Select();
-        var city = collection.Include(c => c.Id).First(c => c.Id == id);
-        
-        return mapper.Map<CityDTO?>(city);
+        return collection.First(c => c.Id == id);
     }
 
-    public async Task<ICollection<CityDTO>> GetAllCities()
+    public async Task<ICollection<City>> GetAllCitiesAsync(CancellationToken ct = default)
     {
-        return mapper.Map<ICollection<CityDTO>>(await repository.Select());
+        var collection = await repository.Select();
+        return collection.ToList();
     }
 
-    public async Task CreateCity(CityDTO cityDTO, CancellationToken ct = default)
+    public async Task CreateCityAsync(CityDTO cityDTO, CancellationToken ct = default)
     {
         var city = mapper.Map<City>(cityDTO);
         await repository.AddAsync(city, ct);
+        await repository.CommitChangesAsync(ct);
     }
 }

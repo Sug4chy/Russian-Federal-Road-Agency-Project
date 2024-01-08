@@ -1,9 +1,9 @@
-﻿using RFRAP.Domain.DTO;
+﻿using RFRAP.Data.Entities;
 
 namespace RFRAP.Domain.Interfaces;
 
 public interface IRoadService
 {
-    Task<RoadDTO> GetRoadById(Guid id);
-    Task<ICollection<RoadDTO>> GetAllRoads();
+    Task<Road> GetRoadByIdAsync(Guid id, CancellationToken ct);
+    Task<ICollection<Road>> GetAllRoadsAsync(CancellationToken ct);
 }

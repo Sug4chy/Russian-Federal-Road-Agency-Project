@@ -9,23 +9,22 @@ namespace RFRAP.Domain.Services;
 
 public class MarkerPointService(IRepository<MarkerPoint> repository, IMapper mapper) : IMarkerPointService
 {
-    public async Task<ICollection<MarkerPointDTO>> GetAllMarkerPoints()
-    {
-        return mapper.Map<ICollection<MarkerPointDTO>>(await repository.Select());
-    }
-
-    public async Task<MarkerPointDTO?> GetMarkerPointById(Guid id)
+    public async Task<ICollection<MarkerPoint>> GetAllMarkerPointsAsync(CancellationToken ct = default)
     {
         var collection = await repository.Select();
-        var markerPoint = collection
-            .Include(p => p.Id).First(p => p.Id == id);
-        return mapper.Map<MarkerPointDTO?>(markerPoint);
+        return collection.ToList();
     }
 
-    public async Task CreateMarkerPoint(MarkerPointDTO markerPointDTO, CancellationToken ct = default)
+    public async Task<MarkerPoint?> GetMarkerPointByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        var collection = await repository.Select();
+        return collection.First(p => p.Id == id);
+    }
+
+    public async Task CreateMarkerPointAsync(MarkerPointDTO markerPointDTO, CancellationToken ct = default)
     {
         var markerPoint = mapper.Map<MarkerPoint>(markerPointDTO);
         await repository.AddAsync(markerPoint, ct);
-        await repository.CommitChangesAsync(ct); // Надо ли?
+        await repository.CommitChangesAsync(ct);
     }
 }

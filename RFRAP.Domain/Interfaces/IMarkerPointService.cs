@@ -1,10 +1,11 @@
-﻿using RFRAP.Domain.DTO;
+﻿using RFRAP.Data.Entities;
+using RFRAP.Domain.DTO;
 
 namespace RFRAP.Domain.Interfaces;
 
 public interface IMarkerPointService
 {
-    Task<ICollection<MarkerPointDTO>> GetAllMarkerPoints();
-    Task<MarkerPointDTO?> GetMarkerPointById(Guid id);
-    Task CreateMarkerPoint(MarkerPointDTO markerPoint, CancellationToken ct);
+    Task<ICollection<MarkerPoint>> GetAllMarkerPointsAsync(CancellationToken ct);
+    Task<MarkerPoint?> GetMarkerPointByIdAsync(Guid id, CancellationToken ct);
+    Task CreateMarkerPointAsync(MarkerPointDTO markerPoint, CancellationToken ct);
 }
