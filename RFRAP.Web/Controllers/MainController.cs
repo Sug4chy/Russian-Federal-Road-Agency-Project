@@ -11,7 +11,7 @@ public class MainController : ControllerBase
 {
     [HttpGet("getAll")]
     public IEnumerable<RoadDTO> GetAllRoads
-        ([FromServices] MainHandler handler, CancellationToken ct = default)
+        (/*[FromServices] MainHandler handler*/CancellationToken ct = default)
     {
         Log.Logger.Information("asdasd");
         Log.Logger.Error("asdasd");

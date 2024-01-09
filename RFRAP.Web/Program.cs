@@ -1,5 +1,4 @@
 using RFRAP.Web;
-using Serilog;
 
 Host.CreateDefaultBuilder()
     .ConfigureWebHostDefaults(builder =>
