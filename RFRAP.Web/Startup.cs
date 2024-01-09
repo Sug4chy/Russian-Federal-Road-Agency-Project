@@ -1,5 +1,5 @@
 ﻿using RFRAP.Data.Extensions;
-using RFRAP.Domain.Handlers;
+using RFRAP.Domain.Extensions;
 using RFRAP.Domain.Mappings;
 using RFRAP.Web.Middlewares;
 using Serilog;
@@ -15,8 +15,10 @@ public class Startup(IConfiguration config)
         
         services.AddDbContextWithInterceptors(config.GetConnectionString("DefaultConnection") ?? "");
         services.AddGenericRepository();
-        
+
         services.AddAutoMapper(typeof(MappingProfile));
+        services.AddApplicationServices();
+        services.AddHandlers();
 
         services.AddControllers();
         

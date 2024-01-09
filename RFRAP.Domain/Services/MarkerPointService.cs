@@ -7,7 +7,7 @@ using RFRAP.Domain.Interfaces;
 
 namespace RFRAP.Domain.Services;
 
-public class MarkerPointService(IRepository<MarkerPoint> repository, IMapper mapper) : IMarkerPointService
+public class MarkerPointService(IRepository<MarkerPoint> repository) : IMarkerPointService
 {
     public async Task<ICollection<MarkerPoint>> GetAllMarkerPointsAsync(CancellationToken ct = default)
     {

@@ -1,6 +1,8 @@
-﻿namespace RFRAP.Domain.Services;
+﻿using RFRAP.Domain.Interfaces;
 
-public class MarkerTypeService
+namespace RFRAP.Domain.Services;
+
+public class MarkerTypeService : IMarkerTypeService
 {
     
 }
