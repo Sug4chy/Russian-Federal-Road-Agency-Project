@@ -7,5 +7,5 @@ public interface IMarkerPointService
 {
     Task<ICollection<MarkerPoint>> GetAllMarkerPointsAsync(CancellationToken ct);
     Task<MarkerPoint?> GetMarkerPointByIdAsync(Guid id, CancellationToken ct);
-    Task CreateMarkerPointAsync(MarkerPointDTO markerPoint, CancellationToken ct);
+    Task CreateMarkerPointAsync(MarkerPoint markerPoint, CancellationToken ct);
 }

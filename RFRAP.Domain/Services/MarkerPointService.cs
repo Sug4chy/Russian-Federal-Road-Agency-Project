@@ -21,9 +21,8 @@ public class MarkerPointService(IRepository<MarkerPoint> repository, IMapper map
         return collection.First(p => p.Id == id);
     }
 
-    public async Task CreateMarkerPointAsync(MarkerPointDTO markerPointDTO, CancellationToken ct = default)
+    public async Task CreateMarkerPointAsync(MarkerPoint markerPoint, CancellationToken ct = default)
     {
-        var markerPoint = mapper.Map<MarkerPoint>(markerPointDTO);
         await repository.AddAsync(markerPoint, ct);
         await repository.CommitChangesAsync(ct);
     }

@@ -10,6 +10,6 @@ public class RoadDTO
     public PointDTO ImageMid { get; set; }
     public double ImageScale { get; set; }
 
-    public ICollection<MarkerPointDTO> Points =>
+    public ICollection<MarkerPointDTO> Points { get; set; } =
         Array.Empty<MarkerPointDTO>();
 }
