@@ -13,7 +13,7 @@ public class Road : AuditableEntity
     public City? DestCity { get; set; }
     
     public Point ImageMid { get; set; }
-    public double ImageScale { get; set; }
+    public required double ImageScale { get; set; }
     
     public ICollection<MarkerPoint>? Points { get; set; }
 }

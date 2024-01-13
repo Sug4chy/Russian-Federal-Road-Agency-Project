@@ -25,11 +25,7 @@ public class RoadConfiguration : IEntityTypeConfiguration<Road>
             .WithMany(c => c.RoadsTo)
             .HasForeignKey(r => r.DestCityId);
         
-        /*builder.Property(r => r.ImageScale)
-            .HasConversion(new PostgreSqlPointsConverter());*/
         builder.Property(r => r.ImageMid)
             .HasConversion(new PostgreSqlPointsConverter());
-
-        builder.Property(r => r.ImageScale).IsRequired();
     }
 }
