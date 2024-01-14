@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RFRAP.Domain.DTO;
+using RFRAP.Domain.DTO.Responses;
 using RFRAP.Domain.Handlers;
 
 namespace RFRAP.Web.Controllers;
@@ -9,7 +9,13 @@ namespace RFRAP.Web.Controllers;
 public class MainController : ControllerBase
 {
     [HttpGet("getAll")]
-    public async Task<IEnumerable<RoadDTO>> GetAllRoads
-        ([FromServices] MainHandler handler, CancellationToken ct = default) 
-        => await handler.GetAllRoadsAsync(ct);
+    public Task<RoadResponse> GetAllRoads
+        ([FromServices] RoadHandler handler, CancellationToken ct = default) 
+        => handler.HandleAsync(ct);
+    
+    // 0 идей пока что с poinType enum-ом делать
+    [HttpGet("{roadId}/{pointType}")]
+    public Task<PointResponse> GetPoints
+        ([FromServices] PointHandler handler, Guid roadId, string pointType, CancellationToken ct = default)
+        => handler.HandleAsync(roadId, pointType, ct);
 }

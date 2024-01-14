@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RFRAP.Data.Entities;
 using RFRAP.Data.Repositories;
 using RFRAP.Domain.DTO;
 using RFRAP.Domain.Interfaces;
+using Serilog;
 
 namespace RFRAP.Domain.Services;
 
@@ -17,7 +19,13 @@ public class RoadService(IRepository<Road> repository, IMapper mapper) : IRoadSe
     public async Task<ICollection<Road>> GetAllRoadsAsync(CancellationToken ct = default)
     {
         var collection = await repository.Select();
-        return collection.ToList();
+        
+        Log.Information($"Collection size: {collection.Count()}");
+        
+        return collection
+            .Include(r => r.SourceCity)
+            .Include(r => r.DestCity)
+            .ToList();
     }
 
     public async Task AddRoadAsync(RoadDTO roadDto, CancellationToken ct = default)

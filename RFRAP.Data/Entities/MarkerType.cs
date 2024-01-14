@@ -2,5 +2,6 @@
 
 public enum MarkerType
 {
-    
+    Yama, //Мем, потом уберу
+    Puddle
 }
