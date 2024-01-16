@@ -2,6 +2,7 @@
 
 public enum MarkerType
 {
-    Yama, //Мем, потом уберу
-    Puddle
+    GasStation,
+    RoadDamage,
+    TrafficAccident
 }

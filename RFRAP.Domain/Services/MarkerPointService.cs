@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RFRAP.Data.Entities;
 using RFRAP.Data.Repositories;
+using RFRAP.Domain.DTO.Requests;
 using RFRAP.Domain.Interfaces;
-using Serilog;
 
 namespace RFRAP.Domain.Services;
 
@@ -21,18 +21,39 @@ public class MarkerPointService
         return collection.First(p => p.Id == id);
     }
 
-    public async Task<ICollection<MarkerPoint>> GetMarkerPointByRoadIdAsync
-        (Guid id, string pointType, CancellationToken ct = default)
+    public async Task<ICollection<MarkerPoint>> GetMarkerPointByRoadIdAndTypeAsync
+        (PointRequest request, CancellationToken ct = default)
     {
-        var collection = await roadRepository.Select();
         
-        var road = collection.Include(r => r.Points).First(r => r.Id == id);
-        Log.Warning($"Road found: {road.Id}");
-        return road.Points ?? Array.Empty<MarkerPoint>();
+        var collection = await roadRepository.Select();
+
+        var points = collection
+            .Include(r => r.Points)
+            .First(r => r.Id == request.RoadId)
+            .Points;
+
+        if (request.PointType is not null)
+        {
+            var type = Enum.Parse<MarkerType>(request.PointType);
+            points = points?.Where(p => p.Type == type).ToArray();
+        }
+        
+        return points ?? Array.Empty<MarkerPoint>();
     }
 
-    public async Task CreateMarkerPointAsync(MarkerPoint markerPoint, CancellationToken ct = default)
+    public async Task CreateMarkerPointAsync(CreatePointRequest request, CancellationToken ct = default)
     {
+        var roads = await roadRepository.Select();
+        var roadId = roads.First(r => r.Id == request.RoadId).Id;
+        
+        var markerPoint = new MarkerPoint
+        {
+            Id = Guid.NewGuid(),
+            Coordinates = new Point(request.X, request.Y),
+            RoadId = roadId,
+            Type = Enum.Parse<MarkerType>(request.PointType)
+        };
+        
         await repository.AddAsync(markerPoint, ct);
         await repository.CommitChangesAsync(ct);
     }

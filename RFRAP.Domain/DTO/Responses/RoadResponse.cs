@@ -1,8 +1,6 @@
-﻿using RFRAP.Domain.Interfaces;
+﻿namespace RFRAP.Domain.DTO.Responses;
 
-namespace RFRAP.Domain.DTO.Responses;
-
-public record RoadResponse : IResponse
+public record RoadResponse
 {
-    public required RoadDTO[] Road { get; init; }
+    public required RoadDTO[] Roads { get; init; }
 }

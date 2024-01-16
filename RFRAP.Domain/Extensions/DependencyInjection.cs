@@ -9,8 +9,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        services.AddScoped<RoadHandler>();
-        services.AddScoped<PointHandler>();
+        services.AddScoped<GetAllRoadsHandler>();
+        services.AddScoped<GetPointsByRoadIdHandler>();
+        services.AddScoped<CreatePointHandler>();
         return services;
     }
 

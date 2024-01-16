@@ -1,8 +1,6 @@
-﻿using RFRAP.Domain.Interfaces;
+﻿namespace RFRAP.Domain.DTO.Responses;
 
-namespace RFRAP.Domain.DTO.Responses;
-
-public record PointResponse : IResponse
+public record PointResponse
 {
-    public MarkerPointDTO[] Point { get; init; }
+    public required MarkerPointDTO[] Points { get; init; }
 }

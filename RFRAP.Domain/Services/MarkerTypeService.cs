@@ -2,7 +2,4 @@
 
 namespace RFRAP.Domain.Services;
 
-public class MarkerTypeService : IMarkerTypeService
-{
-    
-}
+public class MarkerTypeService : IMarkerTypeService;

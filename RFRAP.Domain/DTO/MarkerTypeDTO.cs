@@ -2,5 +2,7 @@
 
 public enum MarkerTypeDTO
 {
-    
+    GasStation,
+    RoadDamage,
+    TrafficAccident
 }
