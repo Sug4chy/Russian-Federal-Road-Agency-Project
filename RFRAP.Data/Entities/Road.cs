@@ -5,15 +5,6 @@ namespace RFRAP.Data.Entities;
 public class Road : AuditableEntity
 {
     public Guid Id { get; set; }
-    
-    public Guid SourceCityId { get; set; }
-    public City? SourceCity { get; set; }
-    
-    public Guid DestCityId { get; set; }
-    public City? DestCity { get; set; }
-    
-    public Point ImageMid { get; set; }
-    public required double ImageScale { get; set; }
-    
-    public ICollection<MarkerPoint>? Points { get; set; }
+    public required string Name { get; set; }
+    public ICollection<Segment>? Segments { get; set; }
 }
