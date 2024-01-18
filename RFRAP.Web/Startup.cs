@@ -15,6 +15,7 @@ public class Startup(IConfiguration config)
         services.AddDbContextWithInterceptors(config.GetConnectionString("DefaultConnection") ?? "");
         services.AddGenericRepository();
         services.AddUnitOfWork();
+        services.AddValidators();
         services.AddDomainServices();
         services.AddHandlers();
 

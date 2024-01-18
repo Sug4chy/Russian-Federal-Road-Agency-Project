@@ -1,4 +1,5 @@
-﻿using RFRAP.Data.UnitOfWork;
+﻿using FluentValidation;
+using RFRAP.Data.UnitOfWork;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Requests;
 using RFRAP.Domain.Services.Segments;
@@ -8,19 +9,22 @@ namespace RFRAP.Domain.Handlers;
 
 public class AddUnverifiedPointHandler(
     ISegmentService segmentService,
-    IUnverifiedService unverifiedService,
-    IUnitOfWork unitOfWork)
+    IUnverifiedPointsService unverifiedPointsService,
+    IUnitOfWork unitOfWork,
+    IValidator<AddUnverifiedPointRequest> validator)
 {
     public async Task HandleAsync(AddUnverifiedPointRequest request, CancellationToken ct = default)
     {
-        //Тут должна быть валидация запроса типа
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+        
         var roadSegments = await segmentService.GetSegmentsByRoadName(request.RoadName, ct);
         NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
         
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(request.X, request.Y, roadSegments!);
         NotFoundException.ThrowIfNull(nearestSegment, nameof(nearestSegment));
-        var point = unverifiedService.CreatePoint(request.X, request.Y, nearestSegment!);
         
+        var point = unverifiedPointsService.CreatePoint(request.X, request.Y, nearestSegment!);
         await unitOfWork.UnverifiedPoints.AddAsync(point, ct);
         await unitOfWork.SaveChangesAsync(ct);
     }

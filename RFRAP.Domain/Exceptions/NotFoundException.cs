@@ -2,7 +2,7 @@
 
 public class NotFoundException(string message) : ExceptionBase(message)
 {
-    public override int StatusCode { get; init; } = 400;
+    public override int StatusCode { get; init; } = 404;
 
     public static void ThrowIfNull(object? o, string argumentName)
     {

@@ -3,7 +3,7 @@ using RFRAP.Data.Entities;
 
 namespace RFRAP.Domain.Services.UnverifiedPoints;
 
-public class UnverifiedService : IUnverifiedService
+public class UnverifiedPointsService : IUnverifiedPointsService
 {
     public UnverifiedPoint CreatePoint(double x, double y, Segment segment)
         => new()
