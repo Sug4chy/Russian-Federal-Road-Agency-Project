@@ -28,12 +28,21 @@ public class SegmentService(IRepository<Road> roadRepository) : ISegmentService
     }
 
     public async Task<List<Segment>?> 
-        GetSegmentsByRoadName(string roadName, CancellationToken ct = default)
+        GetSegmentsByRoadNameAsync(string roadName, CancellationToken ct = default)
     {
         var road = await roadRepository.Select()
             .Include(r => r.Segments)
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);
-        return road?.Segments?.ToList();
+        return road?.Segments.ToList();
+    }
+
+    public async Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(string roadName, CancellationToken ct = default)
+    {
+        var road = await roadRepository.Select()
+            .Include(r => r.Segments)
+            .ThenInclude(s => s.GasStations)
+            .FirstOrDefaultAsync(r => r.Name == roadName, ct);
+        return road?.Segments.ToList();
     }
 
     private static double GetMinDistanceToSegment(NpgsqlPoint point, Segment segment)

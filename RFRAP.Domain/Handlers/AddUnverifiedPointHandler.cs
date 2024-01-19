@@ -18,7 +18,7 @@ public class AddUnverifiedPointHandler(
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
         
-        var roadSegments = await segmentService.GetSegmentsByRoadName(request.RoadName, ct);
+        var roadSegments = await segmentService.GetSegmentsByRoadNameAsync(request.RoadName, ct);
         NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
         
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(request.X, request.Y, roadSegments!);

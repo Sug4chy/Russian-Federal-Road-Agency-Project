@@ -5,7 +5,6 @@ using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Handlers;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Requests;
-using RFRAP.Domain.Services.Roads;
 using RFRAP.Domain.Services.Segments;
 using RFRAP.Domain.Services.UnverifiedPoints;
 using RFRAP.Domain.Validators;
@@ -17,8 +16,7 @@ public static class DependencyInjection
     public static IServiceCollection AddDomainServices(this IServiceCollection services)
         => services
             .AddScoped<ISegmentService, SegmentService>()
-            .AddScoped<IUnverifiedPointsService, UnverifiedPointsService>()
-            .AddScoped<IRoadService, RoadService>();
+            .AddScoped<IUnverifiedPointsService, UnverifiedPointsService>();
 
     public static IServiceCollection AddHandlers(this IServiceCollection services)
         => services

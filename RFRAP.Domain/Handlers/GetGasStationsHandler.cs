@@ -4,13 +4,13 @@ using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Responses;
-using RFRAP.Domain.Services.Roads;
+using RFRAP.Domain.Services.Segments;
 
 namespace RFRAP.Domain.Handlers;
 
 public class GetGasStationsHandler(
-    IValidator<string> validator, 
-    IRoadService roadService, 
+    IValidator<string> validator,
+    ISegmentService segmentService,
     IMapper<GasStation, GasStationDto> mapper)
 {
     public async Task<GetGasStationsResponse> HandleAsync(string roadName, CancellationToken ct = default)
@@ -18,16 +18,18 @@ public class GetGasStationsHandler(
         var validationResult = await validator.ValidateAsync(roadName, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
-        var road = await roadService.GetRoadByNameAsync(roadName, ct);
-        NotFoundException.ThrowIfNull(road, nameof(road));
+        var roadSegments = await segmentService
+            .GetSegmentsByRoadNameWithGasStationsAsync(roadName, ct);
+        NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
 
         var gasStations = new List<GasStation>();
-
-        foreach (var segment in road.Segments)
+        for (int i = 0; i < roadSegments!.Count; i++)
         {
-            gasStations.AddRange(segment.GasStations);
+            var currentSegmentGasStations = roadSegments[i].GasStations 
+                                            ?? Array.Empty<GasStation>();
+            gasStations.AddRange(currentSegmentGasStations);
         }
-
+        
         return new GetGasStationsResponse
         {
             GasStations = gasStations.Select(mapper.Map).ToArray()
