@@ -18,6 +18,7 @@ public class Startup(IConfiguration config)
         services.AddUnitOfWork();
         services.AddValidators();
         services.AddDomainServices();
+        services.AddMappers();
         services.AddHandlers();
 
         services.AddControllers();
