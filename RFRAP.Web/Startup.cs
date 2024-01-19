@@ -1,5 +1,6 @@
 ﻿using RFRAP.Data.Extensions;
 using RFRAP.Domain.Extensions;
+using RFRAP.Web.Extensions;
 using RFRAP.Web.Middlewares;
 using Serilog;
 
@@ -26,7 +27,7 @@ public class Startup(IConfiguration config)
             .MinimumLevel.Debug()
             .CreateLogger();
 
-        services.AddSingleton<ErrorHandlingMiddleware>();
+        services.AddErrorHandling();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -43,5 +44,7 @@ public class Startup(IConfiguration config)
         app.UseMiddleware<ErrorHandlingMiddleware>();
         
         app.UseEndpoints(endpointRouteBuilder => endpointRouteBuilder.MapControllers());
+
+        app.UseErrorHandling();
     }
 }
