@@ -23,4 +23,12 @@ public class RoadsController : ControllerBase
         [FromServices] GetGasStationsHandler handler,
         CancellationToken ct = default)
         => handler.HandleAsync(roadName, ct);
+
+    [HttpPost("{roadName}/gasStations")]
+    public Task AddGasStation(
+        [FromRoute] string roadName,
+        [FromBody] AddGasStationRequest request,
+        [FromServices] AddGasStationHandler handler,
+        CancellationToken ct = default)
+        => handler.HandleAsync(request with {RoadName = roadName}, ct);
 }
