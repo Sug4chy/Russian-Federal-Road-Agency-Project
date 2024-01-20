@@ -6,10 +6,10 @@ using RFRAP.Domain.Responses;
 namespace RFRAP.Web.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/[controller]/{roadName}")]
 public class RoadsController : ControllerBase
 {
-    [HttpPost("{roadName}/unverified")]
+    [HttpPost("unverified")]
     public Task AddUnverifiedPoint(
         [FromRoute] string roadName,
         [FromBody] AddUnverifiedPointRequest request,
@@ -17,14 +17,14 @@ public class RoadsController : ControllerBase
         CancellationToken ct = default)
         => handler.HandleAsync(request with { RoadName = roadName }, ct);
 
-    [HttpGet("{roadName}/gasStations")]
+    [HttpGet("gasStations")]
     public Task<GetGasStationsResponse> GetGasStations(
         [FromRoute] string roadName,
         [FromServices] GetGasStationsHandler handler,
         CancellationToken ct = default)
         => handler.HandleAsync(roadName, ct);
 
-    [HttpPost("{roadName}/gasStations")]
+    [HttpPost("gasStations")]
     public Task AddGasStation(
         [FromRoute] string roadName,
         [FromBody] AddGasStationRequest request,
