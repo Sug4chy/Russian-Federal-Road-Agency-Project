@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
+using RFRAP.Domain.Requests;
 
 namespace RFRAP.Domain.Validators;
 
-public class GetGasStationsRequestValidator : AbstractValidator<string>
+public class GetGasStationsRequestValidator : AbstractValidator<GetGasStationsRequest>
 {
     public GetGasStationsRequestValidator()
     {
-        RuleFor(request => request)
+        RuleFor(request => request.RoadName)
             .NotEmpty()
             .NotNull();
     }

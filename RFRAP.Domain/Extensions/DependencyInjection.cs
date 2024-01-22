@@ -29,7 +29,7 @@ public static class DependencyInjection
     public static IServiceCollection AddValidators(this IServiceCollection services)
         => services
             .AddScoped<IValidator<AddUnverifiedPointRequest>, AddUnverifiedPointRequestValidator>()
-            .AddScoped<IValidator<string>, GetGasStationsRequestValidator>()
+            .AddScoped<IValidator<GetGasStationsRequest>, GetGasStationsRequestValidator>()
             .AddScoped<IValidator<AddGasStationRequest>, AddGasStationValidator>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
