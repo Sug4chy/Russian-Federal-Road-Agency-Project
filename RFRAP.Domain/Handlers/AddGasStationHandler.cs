@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using RFRAP.Data.UnitOfWork;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Requests;
 using RFRAP.Domain.Services.GasStations;
@@ -10,8 +9,7 @@ namespace RFRAP.Domain.Handlers;
 public class AddGasStationHandler(
     IValidator<AddGasStationRequest> validator,
     ISegmentService segmentService,
-    IGasStationService gasStationService,
-    IUnitOfWork unitOfWork)
+    IGasStationService gasStationService)
 {
     public async Task HandleAsync(AddGasStationRequest request, CancellationToken ct = default)
     {
@@ -24,11 +22,8 @@ public class AddGasStationHandler(
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(
             request.NewGasStation.X, request.NewGasStation.Y, segments!);
         NotFoundException.ThrowIfNull(nearestSegment, nameof(nearestSegment));
-
-        var gasStation = gasStationService.CreateGasStation(request.NewGasStation.Name, nearestSegment!,
-            request.NewGasStation.X, request.NewGasStation.Y);
         
-        await unitOfWork.GasStations.AddAsync(gasStation, ct);
-        await unitOfWork.SaveChangesAsync(ct);
+        await gasStationService.CreateAndSaveGasStationAsync(request.NewGasStation.Name, nearestSegment!,
+            request.NewGasStation.X, request.NewGasStation.Y, ct);
     }
 }

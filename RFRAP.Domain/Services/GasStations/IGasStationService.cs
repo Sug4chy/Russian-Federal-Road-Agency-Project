@@ -4,5 +4,6 @@ namespace RFRAP.Domain.Services.GasStations;
 
 public interface IGasStationService
 {
-    GasStation CreateGasStation(string name, Segment segment, double x, double y);
+    Task CreateAndSaveGasStationAsync(string name, Segment segment, double x, double y, 
+        CancellationToken ct = default);
 }

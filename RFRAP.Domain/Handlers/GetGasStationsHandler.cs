@@ -27,7 +27,7 @@ public class GetGasStationsHandler(
         var gasStations = new List<GasStation>();
         for (int i = 0; i < roadSegments!.Count; i++)
         {
-            var currentSegmentGasStations = roadSegments[i].GasStations 
+            var currentSegmentGasStations = roadSegments[i].GasStations
                                             ?? Array.Empty<GasStation>();
             gasStations.AddRange(currentSegmentGasStations);
         }

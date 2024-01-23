@@ -4,5 +4,5 @@ namespace RFRAP.Domain.Services.UnverifiedPoints;
 
 public interface IUnverifiedPointsService
 {
-    UnverifiedPoint CreatePoint(double x, double y, Segment segment);
+    Task CreateAndSavePointAsync(double x, double y, Segment segment, CancellationToken ct = default);
 }

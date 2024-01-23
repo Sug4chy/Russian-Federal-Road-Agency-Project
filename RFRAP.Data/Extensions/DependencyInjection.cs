@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using RFRAP.Data.Context;
 using RFRAP.Data.Context.Interceptors;
-using RFRAP.Data.Repositories;
-using RFRAP.Data.UnitOfWork;
 
 namespace RFRAP.Data.Extensions;
 
@@ -22,10 +20,4 @@ public static class DependencyInjection
         });
         return services;
     }
-
-    public static IServiceCollection AddGenericRepository(this IServiceCollection services) 
-        => services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-    public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
-        => services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 }

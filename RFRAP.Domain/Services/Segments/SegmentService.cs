@@ -1,27 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
+using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
-using RFRAP.Data.Repositories;
 
 namespace RFRAP.Domain.Services.Segments;
 
-public class SegmentService(IRepository<Road> roadRepository) : ISegmentService
+public class SegmentService(AppDbContext context) : ISegmentService
 {
     public Segment? GetNearestSegmentByCoordinates(double x, double y, IReadOnlyList<Segment> segments)
     {
         var point = new NpgsqlPoint(x, y);
         double minDistance = double.MaxValue;
         Segment? result = null;
-        for (int i = 0; i < segments.Count; i++)
+        foreach (var segment in segments)
         {
-            double distance = GetMinDistanceToSegment(point, segments[i]);
+            double distance = GetMinDistanceToSegment(point, segment);
             if (distance >= minDistance)
             {
                 continue;
             }
 
             minDistance = distance;
-            result = segments[i];
+            result = segment;
         }
 
         return result;
@@ -30,7 +30,7 @@ public class SegmentService(IRepository<Road> roadRepository) : ISegmentService
     public async Task<List<Segment>?> 
         GetSegmentsByRoadNameAsync(string roadName, CancellationToken ct = default)
     {
-        var road = await roadRepository.Select()
+        var road = await context.Roads
             .Include(r => r.Segments)
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);
         return road?.Segments.ToList();
@@ -38,7 +38,7 @@ public class SegmentService(IRepository<Road> roadRepository) : ISegmentService
 
     public async Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(string roadName, CancellationToken ct = default)
     {
-        var road = await roadRepository.Select()
+        var road = await context.Roads
             .Include(r => r.Segments)
             .ThenInclude(s => s.GasStations)
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);

@@ -1,7 +1,6 @@
 ﻿using RFRAP.Data.Extensions;
 using RFRAP.Domain.Extensions;
 using RFRAP.Web.Extensions;
-using RFRAP.Web.Middlewares;
 using Serilog;
 
 namespace RFRAP.Web;
@@ -14,8 +13,6 @@ public class Startup(IConfiguration config)
         services.AddSwaggerGen();
         
         services.AddDbContextWithInterceptors(config.GetConnectionString("DefaultConnection") ?? "");
-        services.AddGenericRepository();
-        services.AddUnitOfWork();
         services.AddValidators();
         services.AddDomainServices();
         services.AddMappers();
@@ -39,13 +36,11 @@ public class Startup(IConfiguration config)
             app.UseSwaggerUI();
             app.UseDeveloperExceptionPage();
         }
+        
+        app.UseErrorHandling();
 
         app.UseRouting();
-
-        app.UseMiddleware<ErrorHandlingMiddleware>();
         
         app.UseEndpoints(endpointRouteBuilder => endpointRouteBuilder.MapControllers());
-
-        app.UseErrorHandling();
     }
 }
