@@ -6,7 +6,7 @@ namespace RFRAP.Domain.Services.UnverifiedPoints;
 
 public class UnverifiedPointsService(AppDbContext context) : IUnverifiedPointsService
 {
-    public async Task CreateAndSavePointAsync(double x, double y, Segment segment, CancellationToken ct = default)
+    public async Task<UnverifiedPoint> CreateAndSavePointAsync(double x, double y, Segment segment, CancellationToken ct = default)
     {
         var newPoint = new UnverifiedPoint
         {
@@ -18,5 +18,6 @@ public class UnverifiedPointsService(AppDbContext context) : IUnverifiedPointsSe
 
         await context.UnverifiedPoints.AddAsync(newPoint, ct);
         await context.SaveChangesAsync(ct);
+        return newPoint;
     }
 }

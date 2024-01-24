@@ -12,7 +12,7 @@ namespace RFRAP.Web.Controllers;
 public class RoadsController : ControllerBase
 {
     [HttpPost("unverified")]
-    public Task AddUnverifiedPoint(
+    public Task<AddUnverifiedPointResponse> AddUnverifiedPoint(
         [FromRoute] string roadName,
         [FromBody] AddUnverifiedPointRequest request,
         [FromServices] AddUnverifiedPointHandler handler,
