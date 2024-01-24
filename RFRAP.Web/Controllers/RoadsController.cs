@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RFRAP.Domain.Handlers;
 using RFRAP.Domain.Handlers.Roads;
-using RFRAP.Domain.Requests;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Responses;
 
@@ -22,9 +20,10 @@ public class RoadsController : ControllerBase
     [HttpGet("gasStations")]
     public Task<GetGasStationsResponse> GetGasStations(
         [FromRoute] string roadName,
+        [FromBody] GetGasStationsRequest request,
         [FromServices] GetGasStationsHandler handler,
         CancellationToken ct = default)
-        => handler.HandleAsync(new GetGasStationsRequest { RoadName = roadName }, ct);
+        => handler.HandleAsync(request with { RoadName = roadName }, ct);
 
     [HttpPost("gasStations")]
     public Task AddGasStation(
