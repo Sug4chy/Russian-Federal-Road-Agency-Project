@@ -34,7 +34,11 @@ public class GetGasStationsHandler(
         
         return new GetGasStationsResponse
         {
-            GasStations = gasStations.Select(mapper.Map).ToArray()
+            GasStations = gasStations.OrderBy(g => 
+                Math.Sqrt(Math.Pow(request.X - g.Coordinates.X, 2) 
+                          + Math.Pow(request.Y - g.Coordinates.Y, 2)))
+                .Take(10)
+                .Select(mapper.Map).ToArray()
         };
     }
 }
