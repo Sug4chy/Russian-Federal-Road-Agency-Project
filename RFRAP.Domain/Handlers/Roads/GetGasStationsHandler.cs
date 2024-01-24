@@ -3,11 +3,11 @@ using RFRAP.Data.Entities;
 using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Mappers;
-using RFRAP.Domain.Requests;
+using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Responses;
 using RFRAP.Domain.Services.Segments;
 
-namespace RFRAP.Domain.Handlers;
+namespace RFRAP.Domain.Handlers.Roads;
 
 public class GetGasStationsHandler(
     IValidator<GetGasStationsRequest> validator,

@@ -1,4 +1,4 @@
-﻿namespace RFRAP.Domain.Requests;
+﻿namespace RFRAP.Domain.Requests.Roads;
 
 public record AddUnverifiedPointRequest
 {

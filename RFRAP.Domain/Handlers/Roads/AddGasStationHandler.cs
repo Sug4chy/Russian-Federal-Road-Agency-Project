@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.Exceptions;
-using RFRAP.Domain.Requests;
+using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Services.GasStations;
 using RFRAP.Domain.Services.Segments;
 
-namespace RFRAP.Domain.Handlers;
+namespace RFRAP.Domain.Handlers.Roads;
 
 public class AddGasStationHandler(
     IValidator<AddGasStationRequest> validator,
