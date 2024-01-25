@@ -23,6 +23,46 @@ namespace RFRAP.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("RFRAP.Data.Entities.AttachmentFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LastlyEditedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PointId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UniqueName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("UniqueName");
+
+                    b.HasIndex("PointId")
+                        .IsUnique();
+
+                    b.ToTable("AttachmentFile", (string)null);
+                });
+
             modelBuilder.Entity("RFRAP.Data.Entities.GasStation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -127,9 +167,6 @@ namespace RFRAP.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("FileReference")
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
 
@@ -144,6 +181,17 @@ namespace RFRAP.Data.Migrations
                     b.HasIndex("SegmentId");
 
                     b.ToTable("unverified_point", (string)null);
+                });
+
+            modelBuilder.Entity("RFRAP.Data.Entities.AttachmentFile", b =>
+                {
+                    b.HasOne("RFRAP.Data.Entities.UnverifiedPoint", "Point")
+                        .WithOne("File")
+                        .HasForeignKey("RFRAP.Data.Entities.AttachmentFile", "PointId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Point");
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.GasStation", b =>
@@ -189,6 +237,11 @@ namespace RFRAP.Data.Migrations
                     b.Navigation("GasStations");
 
                     b.Navigation("UnverifiedPoints");
+                });
+
+            modelBuilder.Entity("RFRAP.Data.Entities.UnverifiedPoint", b =>
+                {
+                    b.Navigation("File");
                 });
 #pragma warning restore 612, 618
         }

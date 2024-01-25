@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.Requests.Roads;
 
-namespace RFRAP.Domain.Validators;
+namespace RFRAP.Domain.Validators.Roads;
 
-public class GetGasStationsRequestValidator : AbstractValidator<GetGasStationsRequest>
+public class AddUnverifiedPointRequestValidator : AbstractValidator<AddUnverifiedPointRequest>
 {
-    public GetGasStationsRequestValidator()
+    public AddUnverifiedPointRequestValidator()
     {
         RuleFor(request => request.RoadName)
-            .NotEmpty()
-            .NotNull();
+            .NotEmpty();
         RuleFor(request => request.X)
             .Must(BeLongitude);
         RuleFor(request => request.Y)

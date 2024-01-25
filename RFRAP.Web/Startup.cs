@@ -1,4 +1,5 @@
 ﻿using RFRAP.Data.Extensions;
+using RFRAP.Domain.ConfigurationOptions.Files;
 using RFRAP.Domain.Extensions;
 using RFRAP.Web.Extensions;
 using Serilog;
@@ -9,6 +10,9 @@ public class Startup(IConfiguration config)
 {
     public void ConfigureServices(IServiceCollection services)
     {
+        services.Configure<UploadFilesOptions>(
+            config.GetSection(UploadFilesOptions.Position));
+        
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         

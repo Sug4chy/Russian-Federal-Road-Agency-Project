@@ -1,4 +1,5 @@
-﻿using NpgsqlTypes;
+﻿using Microsoft.EntityFrameworkCore;
+using NpgsqlTypes;
 using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
 
@@ -20,4 +21,7 @@ public class UnverifiedPointsService(AppDbContext context) : IUnverifiedPointsSe
         await context.SaveChangesAsync(ct);
         return newPoint;
     }
+
+    public Task<UnverifiedPoint?> GetPointByIdAsync(Guid pointId, CancellationToken ct = default)
+        => context.UnverifiedPoints.FirstOrDefaultAsync(up => up.Id == pointId, ct);
 }

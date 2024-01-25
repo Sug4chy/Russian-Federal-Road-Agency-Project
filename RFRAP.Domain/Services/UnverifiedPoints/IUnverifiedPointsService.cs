@@ -6,4 +6,6 @@ public interface IUnverifiedPointsService
 {
     Task<UnverifiedPoint> CreateAndSavePointAsync(
         double x, double y, Segment segment, CancellationToken ct = default);
+
+    Task<UnverifiedPoint?> GetPointByIdAsync(Guid pointId, CancellationToken ct = default);
 }

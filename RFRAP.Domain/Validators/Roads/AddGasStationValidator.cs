@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.Requests.Roads;
 
-namespace RFRAP.Domain.Validators;
+namespace RFRAP.Domain.Validators.Roads;
 
 public class AddGasStationValidator : AbstractValidator<AddGasStationRequest>
 {

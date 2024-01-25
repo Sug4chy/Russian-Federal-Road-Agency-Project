@@ -20,7 +20,7 @@ public class RoadsController : ControllerBase
     [HttpGet("gasStations")]
     public Task<GetGasStationsResponse> GetGasStations(
         [FromRoute] string roadName,
-        [FromBody] GetGasStationsRequest request,
+        [FromQuery] GetGasStationsRequest request,
         [FromServices] GetGasStationsHandler handler,
         CancellationToken ct = default)
         => handler.HandleAsync(request with { RoadName = roadName }, ct);
