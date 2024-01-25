@@ -5,7 +5,7 @@ Host.CreateDefaultBuilder()
     {
         builder.UseStartup<Startup>()
             .UseConfiguration(new ConfigurationBuilder()
-                .AddJsonFile("config.json")
+                .AddJsonFile("appsettings.Development.json")
                 .Build());
     })
     .Build()

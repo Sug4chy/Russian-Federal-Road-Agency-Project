@@ -7,6 +7,7 @@ using RFRAP.Domain.Handlers.Roads;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Requests.Files;
 using RFRAP.Domain.Requests.Roads;
+using RFRAP.Domain.Services.Files;
 using RFRAP.Domain.Services.GasStations;
 using RFRAP.Domain.Services.Segments;
 using RFRAP.Domain.Services.UnverifiedPoints;
@@ -21,7 +22,8 @@ public static class DependencyInjection
         => services
             .AddScoped<ISegmentService, SegmentService>()
             .AddScoped<IUnverifiedPointsService, UnverifiedPointsService>()
-            .AddScoped<IGasStationService, GasStationService>();
+            .AddScoped<IGasStationService, GasStationService>()
+            .AddScoped<IFileService, FileService>();
 
     public static IServiceCollection AddHandlers(this IServiceCollection services)
         => services

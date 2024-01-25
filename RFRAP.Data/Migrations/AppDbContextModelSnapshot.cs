@@ -39,10 +39,6 @@ namespace RFRAP.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("LastlyEditedAt")
                         .HasColumnType("timestamp with time zone");
 
