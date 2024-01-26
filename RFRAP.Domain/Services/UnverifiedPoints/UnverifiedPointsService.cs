@@ -23,5 +23,7 @@ public class UnverifiedPointsService(AppDbContext context) : IUnverifiedPointsSe
     }
 
     public Task<UnverifiedPoint?> GetPointByIdAsync(Guid pointId, CancellationToken ct = default)
-        => context.UnverifiedPoints.FirstOrDefaultAsync(up => up.Id == pointId, ct);
+        => context.UnverifiedPoints
+            .Include(up => up.File)
+            .FirstOrDefaultAsync(up => up.Id == pointId, ct);
 }
