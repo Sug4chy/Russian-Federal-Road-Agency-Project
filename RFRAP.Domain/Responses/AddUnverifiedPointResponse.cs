@@ -1,6 +1,6 @@
 ﻿namespace RFRAP.Domain.Responses;
 
-public class AddUnverifiedPointResponse
+public record AddUnverifiedPointResponse
 {
     public required Guid AddedPointId { get; init; }
 }
