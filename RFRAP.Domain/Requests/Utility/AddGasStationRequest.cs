@@ -1,6 +1,6 @@
 ﻿using RFRAP.Domain.DTOs;
 
-namespace RFRAP.Domain.Requests.Roads;
+namespace RFRAP.Domain.Requests.Utility;
 
 public record AddGasStationRequest
 {

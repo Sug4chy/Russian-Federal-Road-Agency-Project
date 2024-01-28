@@ -2,6 +2,7 @@
 using NpgsqlTypes;
 using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
+using RFRAP.Domain.DTOs;
 
 namespace RFRAP.Domain.Services.Segments;
 
@@ -36,13 +37,27 @@ public class SegmentService(AppDbContext context) : ISegmentService
         return road?.Segments.ToList();
     }
 
-    public async Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(string roadName, CancellationToken ct = default)
+    public async Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(string roadName, 
+        CancellationToken ct = default)
     {
         var road = await context.Roads
             .Include(r => r.Segments)
             .ThenInclude(s => s.GasStations)
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);
         return road?.Segments.ToList();
+    }
+
+    public async Task CreateAndSaveSegmentAsync(SegmentDto dto, Road road, CancellationToken ct = default)
+    {
+        var newSegment = new Segment
+        {
+            Point1 = new NpgsqlPoint(dto.Point1.X, dto.Point1.Y),
+            Point2 = new NpgsqlPoint(dto.Point2.X, dto.Point2.Y),
+            Road = road,
+            RoadId = road.Id
+        };
+        await context.Segments.AddAsync(newSegment, ct);
+        await context.SaveChangesAsync(ct);
     }
 
     private static double GetMinDistanceToSegment(NpgsqlPoint point, Segment segment)
