@@ -8,7 +8,7 @@ namespace RFRAP.Web.Controllers;
 [Route("/api/[controller]")]
 public class UtilityController : ControllerBase
 {
-    [HttpPost("gasStations")]
+    [HttpPost("{roadName}/gasStations")]
     public Task AddGasStation(
         [FromRoute] string roadName,
         [FromBody] AddGasStationRequest request,
