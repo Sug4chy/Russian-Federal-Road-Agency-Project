@@ -1,4 +1,6 @@
-﻿using RFRAP.Data.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+using RFRAP.Data.Context;
+using RFRAP.Data.Extensions;
 using RFRAP.Domain.ConfigurationOptions.Files;
 using RFRAP.Domain.Extensions;
 using RFRAP.Web.Extensions;
@@ -34,6 +36,16 @@ public class Startup(IConfiguration config)
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<AppDbContext>();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
+        }
+        
         if (env.IsDevelopment())
         {
             app.UseSwagger();
