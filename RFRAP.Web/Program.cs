@@ -1,6 +1,12 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using RFRAP.Web;
 
-app.MapGet("/", () => "Hello World!");
-
-app.Run();
+Host.CreateDefaultBuilder()
+    .ConfigureWebHostDefaults(builder =>
+    {
+        builder.UseStartup<Startup>()
+            .UseConfiguration(new ConfigurationBuilder()
+                .AddJsonFile("appsettings.Development.json")
+                .Build());
+    })
+    .Build()
+    .Run();
