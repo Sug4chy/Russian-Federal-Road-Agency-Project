@@ -8,11 +8,11 @@ namespace RFRAP.Domain.Services.Segments;
 
 public class SegmentService(AppDbContext context) : ISegmentService
 {
-    public Segment? GetNearestSegmentByCoordinates(double x, double y, IReadOnlyList<Segment> segments)
+    public Segment GetNearestSegmentByCoordinates(double x, double y, IEnumerable<Segment> segments)
     {
         var point = new NpgsqlPoint(x, y);
         double minDistance = double.MaxValue;
-        Segment? result = null;
+        Segment result = null!;
         foreach (var segment in segments)
         {
             double distance = GetMinDistanceToSegment(point, segment);
@@ -34,17 +34,17 @@ public class SegmentService(AppDbContext context) : ISegmentService
         var road = await context.Roads
             .Include(r => r.Segments)
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);
-        return road?.Segments.ToList();
+        return road?.Segments?.ToList();
     }
 
     public async Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(string roadName, 
         CancellationToken ct = default)
     {
         var road = await context.Roads
-            .Include(r => r.Segments)
+            .Include(r => r.Segments)!
             .ThenInclude(s => s.GasStations)
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);
-        return road?.Segments.ToList();
+        return road?.Segments?.ToList();
     }
 
     public async Task CreateAndSaveSegmentAsync(SegmentDto dto, Road road, CancellationToken ct = default)

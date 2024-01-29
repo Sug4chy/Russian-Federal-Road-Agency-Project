@@ -8,7 +8,7 @@ public class AttachmentFileEntityConfiguration : IEntityTypeConfiguration<Attach
 {
     public void Configure(EntityTypeBuilder<AttachmentFile> builder)
     {
-        builder.ToTable("AttachmentFile");
+        builder.ToTable("attachment_file");
 
         builder.HasKey(af => af.Id);
         builder.HasAlternateKey(af => af.UniqueName);

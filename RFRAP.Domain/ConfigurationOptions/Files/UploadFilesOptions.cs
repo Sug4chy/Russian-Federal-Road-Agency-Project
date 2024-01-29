@@ -4,5 +4,5 @@ public class UploadFilesOptions
 {
     public const string Position = "UploadFilesConfiguration";
 
-    public string AbsolutePath { get; set; } = string.Empty;
+    public string AbsolutePath { get; init; } = string.Empty;
 }

@@ -23,7 +23,7 @@ public class AddGasStationHandler(
             request.NewGasStation.X, request.NewGasStation.Y, segments!);
         NotFoundException.ThrowIfNull(nearestSegment, nameof(nearestSegment));
         
-        await gasStationService.CreateAndSaveGasStationAsync(request.NewGasStation.Name, nearestSegment!,
+        await gasStationService.CreateAndSaveGasStationAsync(request.NewGasStation.Name, nearestSegment,
             request.NewGasStation.X, request.NewGasStation.Y, ct);
     }
 }

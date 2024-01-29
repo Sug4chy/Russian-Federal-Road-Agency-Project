@@ -22,10 +22,9 @@ public class AddUnverifiedPointHandler(
         NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
         
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(request.X, request.Y, roadSegments!);
-        NotFoundException.ThrowIfNull(nearestSegment, nameof(nearestSegment));
         
         var newPoint = await unverifiedPointsService
-            .CreateAndSavePointAsync(request.X, request.Y, nearestSegment!, ct);
+            .CreateAndSavePointAsync(request.X, request.Y, nearestSegment, ct);
         return new AddUnverifiedPointResponse
         {
             AddedPointId = newPoint.Id

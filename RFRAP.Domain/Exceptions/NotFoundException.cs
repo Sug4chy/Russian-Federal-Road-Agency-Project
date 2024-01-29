@@ -1,6 +1,6 @@
 ﻿namespace RFRAP.Domain.Exceptions;
 
-public class NotFoundException(string message) : ExceptionBase(message)
+public class NotFoundException(string message = "") : ExceptionBase(message)
 {
     public override int StatusCode { get; init; } = 404;
 

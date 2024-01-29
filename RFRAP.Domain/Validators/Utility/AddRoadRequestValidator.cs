@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Requests.Utility;
 
 namespace RFRAP.Domain.Validators.Utility;
