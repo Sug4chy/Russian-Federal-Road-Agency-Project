@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RFRAP.Domain.Handlers.Utility;
-using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Requests.Utility;
 
 namespace RFRAP.Web.Controllers;
@@ -25,7 +24,7 @@ public class UtilityController : ControllerBase
         CancellationToken ct = default)
         => handler.HandleAsync(request with { RoadName = roadName }, ct);
 
-    [HttpPost("addRoad")]
+    [HttpPost("roads")]
     public Task AddRoad(
         [FromBody] AddRoadRequest request,
         [FromServices] AddRoadHandler handler,

@@ -18,7 +18,7 @@ public class SaveFileForPointHandler(
 
         var point = await unverifiedPointsService.GetPointByIdAsync(request.UnverifiedPointId, ct);
         NotFoundException.ThrowIfNull(point, nameof(point));
-        ConflictException.ThrowIfNotNull(point?.File, nameof(point), nameof(point.File));
+        ConflictException.ThrowIfParamNotNull(point?.File, nameof(point), nameof(point.File));
 
         await fileService.SaveAttachmentFileAsync(request.File, point!, ct);
     }

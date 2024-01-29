@@ -16,7 +16,7 @@ public class AddRoadHandler(
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var road = await roadService.GetRoadByNameAsync(request.RoadDto.Name, ct);
-        ConflictException.ThrowIfNotNull(road, nameof(road), nameof(road.Name));
+        ConflictException.ThrowIfParamNotNull(road, nameof(road), nameof(road.Name));
         
         await roadService.CreateAndSaveAsync(request.RoadDto, ct);
     }
