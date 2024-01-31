@@ -16,5 +16,10 @@ public class UnverifiedPointEntityConfiguration : IEntityTypeConfiguration<Unver
             .HasOne(up => up.Segment)
             .WithMany(s => s.UnverifiedPoints)
             .HasForeignKey(up => up.SegmentId);
+
+        builder
+            .HasOne(up => up.File)
+            .WithOne(af => af.Point)
+            .HasForeignKey<AttachmentFile>(af => af.PointId);
     }
 }
