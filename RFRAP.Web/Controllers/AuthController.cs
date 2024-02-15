@@ -6,7 +6,7 @@ using RFRAP.Domain.Responses.Auth;
 namespace RFRAP.Web.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("/api/[controller]")]
 public class AuthController : ControllerBase
 {
     [HttpPost("register")]

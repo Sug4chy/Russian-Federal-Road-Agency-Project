@@ -1,7 +1,10 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
 using RFRAP.Domain.DTOs;
+using RFRAP.Domain.Handlers.Auth;
 using RFRAP.Domain.Handlers.Files;
 using RFRAP.Domain.Handlers.Roads;
 using RFRAP.Domain.Handlers.Utility;
@@ -37,7 +40,8 @@ public static class DependencyInjection
             .AddScoped<AddGasStationHandler>()
             .AddScoped<AddSegmentHandler>()
             .AddScoped<SaveFileForPointHandler>()
-            .AddScoped<AddRoadHandler>();
+            .AddScoped<AddRoadHandler>()
+            .AddScoped<RegisterHandler>();
 
     public static IServiceCollection AddValidators(this IServiceCollection services)
         => services
@@ -51,4 +55,12 @@ public static class DependencyInjection
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services
             .AddScoped<IMapper<GasStation, GasStationDto>, GasStationsMapper>();
+    
+    public static IdentityBuilder AddIdentities(this IServiceCollection services)
+        => services.AddIdentity<User, IdentityRole>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>();
 }

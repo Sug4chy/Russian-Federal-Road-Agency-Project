@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RFRAP.Data.Entities;
 
 namespace RFRAP.Data.Context;
 
-public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityUserContext<User>(options)
 {
     public DbSet<Road> Roads => Set<Road>();
     public DbSet<Segment> Segments => Set<Segment>();
