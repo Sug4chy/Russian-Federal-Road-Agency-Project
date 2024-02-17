@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Requests.Utility;
 using RFRAP.Domain.Services.GasStations;
@@ -20,10 +21,14 @@ public class AddGasStationHandler(
         NotFoundException.ThrowIfNull(segments, nameof(segments));
 
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(
-            request.NewGasStation.X, request.NewGasStation.Y, segments!);
+            new PointDto
+            {
+                Latitude = request.NewGasStation.Latitude, Longitude = request.NewGasStation.Longitude
+            },
+            segments!);
         NotFoundException.ThrowIfNull(nearestSegment, nameof(nearestSegment));
-        
+
         await gasStationService.CreateAndSaveGasStationAsync(request.NewGasStation.Name, nearestSegment,
-            request.NewGasStation.X, request.NewGasStation.Y, ct);
+            request.NewGasStation.Latitude, request.NewGasStation.Longitude, ct);
     }
 }

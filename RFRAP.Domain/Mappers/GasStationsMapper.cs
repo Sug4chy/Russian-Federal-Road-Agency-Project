@@ -9,7 +9,7 @@ public class GasStationsMapper : IMapper<GasStation, GasStationDto>
         => new()
         {
             Name = from.Name,
-            X = from.Coordinates.X,
-            Y = from.Coordinates.Y
+            Longitude = from.Longitude,
+            Latitude = from.Latitude
         };
 }

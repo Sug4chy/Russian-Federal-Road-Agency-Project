@@ -17,14 +17,16 @@ public class AddUnverifiedPointHandler(
     {
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
-        
+
         var roadSegments = await segmentService.GetSegmentsByRoadNameAsync(request.RoadName, ct);
         NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
-        
-        var nearestSegment = segmentService.GetNearestSegmentByCoordinates(request.X, request.Y, roadSegments!);
-        
+
+        var nearestSegment = segmentService.GetNearestSegmentByCoordinates(request.Point.Coordinates,
+            roadSegments!);
+
         var newPoint = await unverifiedPointsService
-            .CreateAndSavePointAsync(request.X, request.Y, nearestSegment, ct);
+            .CreateAndSavePointAsync(request.Point,
+                nearestSegment, ct);
         return new AddUnverifiedPointResponse
         {
             AddedPointId = newPoint.Id

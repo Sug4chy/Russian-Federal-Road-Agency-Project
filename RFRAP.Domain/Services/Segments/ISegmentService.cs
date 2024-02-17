@@ -5,7 +5,7 @@ namespace RFRAP.Domain.Services.Segments;
 
 public interface ISegmentService
 {
-    Segment GetNearestSegmentByCoordinates(double x, double y, IEnumerable<Segment> segments);
+    Segment GetNearestSegmentByCoordinates(PointDto point, IEnumerable<Segment> segments);
     Task<List<Segment>?> GetSegmentsByRoadNameAsync(string roadName, CancellationToken ct = default);
     Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(
         string roadName, CancellationToken ct = default);

@@ -34,9 +34,9 @@ public class GetGasStationsHandler(
         
         return new GetGasStationsResponse
         {
-            GasStations = gasStations.OrderBy(g => 
-                Math.Sqrt(Math.Pow(request.X - g.Coordinates.X, 2) 
-                          + Math.Pow(request.Y - g.Coordinates.Y, 2)))
+            GasStations = gasStations.OrderBy(gs => 
+                Math.Sqrt(Math.Pow(request.Latitude - gs.Latitude, 2) 
+                          + Math.Pow(request.Longitude - gs.Longitude, 2)))
                 .Take(10)
                 .Select(mapper.Map).ToArray()
         };

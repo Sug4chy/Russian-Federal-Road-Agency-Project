@@ -3,6 +3,6 @@
 public record GetGasStationsRequest
 {
     public string? RoadName { get; init; }
-    public required double X { get; init; }
-    public required double Y { get; init; }
+    public required double Longitude { get; init; }
+    public required double Latitude { get; init; }
 }

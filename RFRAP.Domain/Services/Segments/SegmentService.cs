@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NpgsqlTypes;
 using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
 using RFRAP.Domain.DTOs;
@@ -8,9 +7,8 @@ namespace RFRAP.Domain.Services.Segments;
 
 public class SegmentService(AppDbContext context) : ISegmentService
 {
-    public Segment GetNearestSegmentByCoordinates(double x, double y, IEnumerable<Segment> segments)
+    public Segment GetNearestSegmentByCoordinates(PointDto point, IEnumerable<Segment> segments)
     {
-        var point = new NpgsqlPoint(x, y);
         double minDistance = double.MaxValue;
         Segment result = null!;
         foreach (var segment in segments)
@@ -51,8 +49,10 @@ public class SegmentService(AppDbContext context) : ISegmentService
     {
         var newSegment = new Segment
         {
-            Point1 = new NpgsqlPoint(dto.Point1.X, dto.Point1.Y),
-            Point2 = new NpgsqlPoint(dto.Point2.X, dto.Point2.Y),
+            Longitude1 = dto.Point1.Longitude,
+            Latitude1 = dto.Point1.Latitude,
+            Longitude2 = dto.Point2.Longitude,
+            Latitude2 = dto.Point2.Latitude,
             Road = road,
             RoadId = road.Id
         };
@@ -60,46 +60,46 @@ public class SegmentService(AppDbContext context) : ISegmentService
         await context.SaveChangesAsync(ct);
     }
 
-    private static double GetMinDistanceToSegment(NpgsqlPoint point, Segment segment)
+    private static double GetMinDistanceToSegment(PointDto point, Segment segment)
     {
-        var pointAb = new NpgsqlPoint
+        var pointAb = new PointDto
         {
-            X = segment.Point2.X - segment.Point1.X,
-            Y = segment.Point2.Y - segment.Point1.Y
+            Latitude = segment.Latitude2 - segment.Latitude1,
+            Longitude = segment.Longitude1 - segment.Longitude2
         };
-        var pointBe = new NpgsqlPoint
+        var pointBe = new PointDto
         {
-            X = point.X - segment.Point2.X,
-            Y = point.Y - segment.Point2.Y
+            Latitude = point.Latitude - segment.Latitude2,
+            Longitude = point.Longitude - segment.Longitude2
         };
-        var pointAe = new NpgsqlPoint
+        var pointAe = new PointDto
         {
-            X = point.X - segment.Point1.X,
-            Y = point.Y - segment.Point1.Y
+            Latitude = point.Latitude - segment.Latitude1,
+            Longitude = point.Longitude - segment.Longitude1
         };
 
-        double abBe = pointAb.X * pointBe.X + pointAb.Y * pointBe.Y;
-        double abAe = pointAb.X * pointAe.X + pointAb.Y * pointAe.Y;
+        double abBe = pointAb.Latitude * pointBe.Latitude + pointAb.Longitude * pointBe.Longitude;
+        double abAe = pointAb.Latitude * pointAe.Latitude + pointAb.Longitude * pointAe.Longitude;
         double result;
         
         if (abBe > 0) 
         {
-            double y = point.Y - segment.Point2.Y;
-            double x = point.X - segment.Point2.X;
+            double y = point.Longitude - segment.Longitude2;
+            double x = point.Latitude - segment.Latitude2;
             result = Math.Sqrt(x * x + y * y);
         }
         else if (abAe < 0)
         {
-            double y = point.Y - segment.Point1.Y;
-            double x = point.X - segment.Point1.X;
+            double y = point.Longitude - segment.Longitude1;
+            double x = point.Latitude - segment.Latitude1;
             result = Math.Sqrt(x * x + y * y);
         }
         else
         {
-            double x1 = pointAb.X;
-            double y1 = pointAb.Y;
-            double x2 = pointAe.X;
-            double y2 = pointAe.Y;
+            double x1 = pointAb.Latitude;
+            double y1 = pointAb.Longitude;
+            double x2 = pointAe.Latitude;
+            double y2 = pointAe.Longitude;
             double mod = Math.Sqrt(x1 * x1 + y1 * y1);
             result = Math.Abs(x1 * y2 - y1 * x2) / mod;
         }
