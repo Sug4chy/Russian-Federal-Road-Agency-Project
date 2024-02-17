@@ -21,5 +21,7 @@ public class UnverifiedPointEntityConfiguration : IEntityTypeConfiguration<Unver
             .HasOne(up => up.File)
             .WithOne(af => af.Point)
             .HasForeignKey<AttachmentFile>(af => af.PointId);
+
+        builder.Property(up => up.Type).HasConversion<string>();
     }
 }
