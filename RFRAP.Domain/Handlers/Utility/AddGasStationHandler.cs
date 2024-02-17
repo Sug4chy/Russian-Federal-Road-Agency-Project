@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Requests.Utility;
 using RFRAP.Domain.Services.GasStations;
 using RFRAP.Domain.Services.Segments;
@@ -18,7 +19,7 @@ public class AddGasStationHandler(
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var segments = await segmentService.GetSegmentsByRoadNameAsync(request.RoadName, ct);
-        NotFoundException.ThrowIfNull(segments, nameof(segments));
+        NotFoundException.ThrowIfNull(segments, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(
             new PointDto
@@ -26,7 +27,7 @@ public class AddGasStationHandler(
                 Latitude = request.NewGasStation.Latitude, Longitude = request.NewGasStation.Longitude
             },
             segments!);
-        NotFoundException.ThrowIfNull(nearestSegment, nameof(nearestSegment));
+        NotFoundException.ThrowIfNull(nearestSegment, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
         await gasStationService.CreateAndSaveGasStationAsync(request.NewGasStation.Name, nearestSegment,
             request.NewGasStation.Latitude, request.NewGasStation.Longitude, ct);

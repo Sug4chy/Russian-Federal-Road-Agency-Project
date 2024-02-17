@@ -5,7 +5,8 @@ using RFRAP.Web.Models;
 
 namespace RFRAP.Web.Middlewares;
 
-public class ErrorHandlingMiddleware : IMiddleware
+public class ErrorHandlingMiddleware(
+    ILogger<ErrorHandlingMiddleware> logger) : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -19,6 +20,7 @@ public class ErrorHandlingMiddleware : IMiddleware
             switch (ex)
             {
                 case ExceptionBase exceptionBase:
+                    logger.LogError($"{exceptionBase.Error.Description} error occurred");
                     context.Response.StatusCode = exceptionBase.StatusCode;
                     newContent = JsonSerializer.Serialize(new ServerErrorModel
                     {
@@ -27,6 +29,7 @@ public class ErrorHandlingMiddleware : IMiddleware
                     });
                     break;
                 default:
+                    logger.LogError($"{ex.Message} error occurred");
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     newContent = JsonSerializer.Serialize(new ServerErrorModel
                     {

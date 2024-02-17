@@ -2,6 +2,7 @@
 using RFRAP.Data.Entities;
 using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Responses;
@@ -22,7 +23,7 @@ public class GetGasStationsHandler(
 
         var roadSegments = await segmentService
             .GetSegmentsByRoadNameWithGasStationsAsync(request.RoadName!, ct);
-        NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
+        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName!));
 
         var gasStations = new List<GasStation>();
         for (int i = 0; i < roadSegments!.Count; i++)

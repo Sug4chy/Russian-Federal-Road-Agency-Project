@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Responses;
 using RFRAP.Domain.Services.Segments;
@@ -19,7 +20,7 @@ public class AddUnverifiedPointHandler(
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var roadSegments = await segmentService.GetSegmentsByRoadNameAsync(request.RoadName, ct);
-        NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
+        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(request.Point.Coordinates,
             roadSegments!);
