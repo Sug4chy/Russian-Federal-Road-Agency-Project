@@ -8,6 +8,7 @@ public class AddUnverifiedPointRequestValidator : AbstractValidator<AddUnverifie
     public AddUnverifiedPointRequestValidator()
     {
         RuleFor(request => request.RoadName)
+            .NotNull()
             .NotEmpty();
         RuleFor(request => request.Point)
             .NotNull();

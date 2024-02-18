@@ -2,6 +2,7 @@
 using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
 using RFRAP.Domain.DTOs;
+using static System.Math;
 
 namespace RFRAP.Domain.Services.Segments;
 
@@ -59,6 +60,11 @@ public class SegmentService(AppDbContext context) : ISegmentService
         await context.Segments.AddAsync(newSegment, ct);
         await context.SaveChangesAsync(ct);
     }
+    
+    public double GetDistanceFromPointToUserInKm(PointDto userCoordinates, PointDto pointCoordinates)
+        => 111.2 * Acos(Sin(userCoordinates.Latitude) * Sin(pointCoordinates.Latitude) +
+                        Cos(userCoordinates.Latitude) * Cos(pointCoordinates.Latitude) *
+                        Cos(userCoordinates.Longitude - pointCoordinates.Longitude));
 
     private static double GetMinDistanceToSegment(PointDto point, Segment segment)
     {
@@ -86,13 +92,13 @@ public class SegmentService(AppDbContext context) : ISegmentService
         {
             double y = point.Longitude - segment.Longitude2;
             double x = point.Latitude - segment.Latitude2;
-            result = Math.Sqrt(x * x + y * y);
+            result = Sqrt(x * x + y * y);
         }
         else if (abAe < 0)
         {
             double y = point.Longitude - segment.Longitude1;
             double x = point.Latitude - segment.Latitude1;
-            result = Math.Sqrt(x * x + y * y);
+            result = Sqrt(x * x + y * y);
         }
         else
         {
@@ -100,8 +106,8 @@ public class SegmentService(AppDbContext context) : ISegmentService
             double y1 = pointAb.Longitude;
             double x2 = pointAe.Latitude;
             double y2 = pointAe.Longitude;
-            double mod = Math.Sqrt(x1 * x1 + y1 * y1);
-            result = Math.Abs(x1 * y2 - y1 * x2) / mod;
+            double mod = Sqrt(x1 * x1 + y1 * y1);
+            result = Abs(x1 * y2 - y1 * x2) / mod;
         }
 
         return result;

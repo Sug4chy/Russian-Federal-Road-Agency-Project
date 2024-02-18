@@ -1,8 +1,9 @@
-﻿namespace RFRAP.Domain.Requests.Roads;
+﻿using RFRAP.Domain.DTOs;
+
+namespace RFRAP.Domain.Requests.Roads;
 
 public record GetGasStationsRequest
 {
-    public string? RoadName { get; init; }
-    public required double Longitude { get; init; }
-    public required double Latitude { get; init; }
+    public required string RoadName { get; init; }
+    public required PointDto Coordinates { get; init; }
 }

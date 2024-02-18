@@ -10,9 +10,11 @@ public class GetGasStationsRequestValidator : AbstractValidator<GetGasStationsRe
         RuleFor(request => request.RoadName)
             .NotEmpty()
             .NotNull();
-        RuleFor(request => request.Longitude)
+        RuleFor(request => request.Coordinates)
+            .NotNull();
+        RuleFor(request => request.Coordinates.Latitude)
             .Must(ValidationDefaults.BeLongitude);
-        RuleFor(request => request.Latitude)
+        RuleFor(request => request.Coordinates.Latitude)
             .Must(ValidationDefaults.BeLatitude);
     }
 }

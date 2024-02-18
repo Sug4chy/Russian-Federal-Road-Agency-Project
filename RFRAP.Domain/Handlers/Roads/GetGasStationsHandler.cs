@@ -22,8 +22,8 @@ public class GetGasStationsHandler(
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var roadSegments = await segmentService
-            .GetSegmentsByRoadNameWithGasStationsAsync(request.RoadName!, ct);
-        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName!));
+            .GetSegmentsByRoadNameWithGasStationsAsync(request.RoadName, ct);
+        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
         var gasStations = new List<GasStation>();
         for (int i = 0; i < roadSegments!.Count; i++)
@@ -32,14 +32,24 @@ public class GetGasStationsHandler(
                                             ?? Array.Empty<GasStation>();
             gasStations.AddRange(currentSegmentGasStations);
         }
-        
+
+        var responseGasStations = gasStations.OrderBy(gs =>
+                Math.Sqrt(Math.Pow(request.Coordinates.Latitude - gs.Latitude, 2)
+                          + Math.Pow(request.Coordinates.Longitude - gs.Longitude, 2)))
+            .Take(10)
+            .Select(mapper.Map).ToArray();
         return new GetGasStationsResponse
         {
-            GasStations = gasStations.OrderBy(gs => 
-                Math.Sqrt(Math.Pow(request.Latitude - gs.Latitude, 2) 
-                          + Math.Pow(request.Longitude - gs.Longitude, 2)))
-                .Take(10)
-                .Select(mapper.Map).ToArray()
+            GasStations = responseGasStations,
+            DistancesFromUser = responseGasStations
+                .Select(gs => segmentService
+                    .GetDistanceFromPointToUserInKm(request.Coordinates, 
+                        new PointDto
+                        {
+                            Latitude = gs.Latitude,
+                            Longitude = gs.Longitude
+                        }))
+                .ToArray()
         };
     }
 }
