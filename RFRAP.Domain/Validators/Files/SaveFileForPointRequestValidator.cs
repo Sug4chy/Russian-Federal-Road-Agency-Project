@@ -7,6 +7,8 @@ public class SaveFileForPointRequestValidator : AbstractValidator<SaveFileForPoi
 {
     public SaveFileForPointRequestValidator()
     {
+        RuleFor(request => request.UnverifiedPointId)
+            .NotNull();
         RuleFor(request => request.File)
             .NotNull();
         RuleFor(request => request.File.FileName)

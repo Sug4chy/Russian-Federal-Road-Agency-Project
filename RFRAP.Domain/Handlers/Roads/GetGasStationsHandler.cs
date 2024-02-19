@@ -11,43 +11,43 @@ using RFRAP.Domain.Services.Segments;
 namespace RFRAP.Domain.Handlers.Roads;
 
 public class GetGasStationsHandler(
-    IValidator<GetGasStationsRequest> validator,
+    IValidator<GetVerifiedPointsRequest> validator,
     ISegmentService segmentService,
-    IMapper<GasStation, GasStationDto> mapper)
+    IMapper<VerifiedPoint, VerifiedPointDto> mapper)
 {
-    public async Task<GetGasStationsResponse> HandleAsync(GetGasStationsRequest request, 
+    public async Task<GetVerifiedPointsResponse> HandleAsync(GetVerifiedPointsRequest request, 
         CancellationToken ct = default)
     {
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var roadSegments = await segmentService
-            .GetSegmentsByRoadNameWithGasStationsAsync(request.RoadName, ct);
+            .GetSegmentsByRoadNameWithVerifiedPointsAsync(request.RoadName, 
+                Enum.Parse<VerifiedPointType>(request.PointType), ct);
         NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
-        var gasStations = new List<GasStation>();
+        var verifiedPoints = new List<VerifiedPoint>();
         for (int i = 0; i < roadSegments!.Count; i++)
         {
-            var currentSegmentGasStations = roadSegments[i].GasStations
-                                            ?? Array.Empty<GasStation>();
-            gasStations.AddRange(currentSegmentGasStations);
+            var currentSegmentVerifiedPoints = roadSegments[i].VerifiedPoints;
+            verifiedPoints.AddRange(currentSegmentVerifiedPoints);
         }
 
-        var responseGasStations = gasStations.OrderBy(gs =>
+        var responseVerifiedPoints = verifiedPoints.OrderBy(gs =>
                 Math.Sqrt(Math.Pow(request.Coordinates.Latitude - gs.Latitude, 2)
                           + Math.Pow(request.Coordinates.Longitude - gs.Longitude, 2)))
             .Take(10)
             .Select(mapper.Map).ToArray();
-        return new GetGasStationsResponse
+        return new GetVerifiedPointsResponse
         {
-            GasStations = responseGasStations,
-            DistancesFromUser = responseGasStations
-                .Select(gs => segmentService
+            Points = responseVerifiedPoints,
+            DistancesFromUser = responseVerifiedPoints
+                .Select(vp => segmentService
                     .GetDistanceFromPointToUserInKm(request.Coordinates, 
                         new PointDto
                         {
-                            Latitude = gs.Latitude,
-                            Longitude = gs.Longitude
+                            Latitude = vp.Latitude,
+                            Longitude = vp.Longitude
                         }))
                 .ToArray()
         };

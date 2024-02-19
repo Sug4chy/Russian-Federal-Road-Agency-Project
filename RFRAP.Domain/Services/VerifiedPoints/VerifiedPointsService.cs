@@ -3,12 +3,12 @@ using RFRAP.Data.Entities;
 
 namespace RFRAP.Domain.Services.GasStations;
 
-public class GasStationService(AppDbContext context) : IGasStationService
+public class VerifiedPointsService(AppDbContext context) : IVerifiedPointsService
 {
     public async Task CreateAndSaveGasStationAsync(string name, Segment segment, double latitude, double longitude,
         CancellationToken ct = default)
     {
-        var newGasStation = new GasStation
+        var newGasStation = new VerifiedPoint
         {
             Name = name,
             SegmentId = segment.Id,
@@ -17,7 +17,7 @@ public class GasStationService(AppDbContext context) : IGasStationService
             Latitude = latitude
         };
 
-        await context.GasStations.AddAsync(newGasStation, ct);
+        await context.VerifiedPoints.AddAsync(newGasStation, ct);
         await context.SaveChangesAsync(ct);
     }
 }

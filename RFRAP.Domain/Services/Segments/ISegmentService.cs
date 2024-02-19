@@ -7,8 +7,8 @@ public interface ISegmentService
 {
     Segment GetNearestSegmentByCoordinates(PointDto point, IEnumerable<Segment> segments);
     Task<List<Segment>?> GetSegmentsByRoadNameAsync(string roadName, CancellationToken ct = default);
-    Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(
-        string roadName, CancellationToken ct = default);
+    Task<List<Segment>?> GetSegmentsByRoadNameWithVerifiedPointsAsync(
+        string roadName, VerifiedPointType pointType, CancellationToken ct = default);
     Task CreateAndSaveSegmentAsync(SegmentDto dto, Road road, CancellationToken ct = default);
     double GetDistanceFromPointToUserInKm(PointDto userCoordinates, PointDto pointCoordinates);
 }

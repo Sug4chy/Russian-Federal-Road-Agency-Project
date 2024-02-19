@@ -7,7 +7,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
 {
     public DbSet<Road> Roads => Set<Road>();
     public DbSet<Segment> Segments => Set<Segment>();
-    public DbSet<GasStation> GasStations => Set<GasStation>();
+    public DbSet<VerifiedPoint> VerifiedPoints => Set<VerifiedPoint>();
     public DbSet<UnverifiedPoint> UnverifiedPoints => Set<UnverifiedPoint>();
     public DbSet<AttachmentFile> Files => Set<AttachmentFile>();
 

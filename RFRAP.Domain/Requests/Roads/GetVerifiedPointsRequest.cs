@@ -2,8 +2,9 @@
 
 namespace RFRAP.Domain.Requests.Roads;
 
-public record GetGasStationsRequest
+public record GetVerifiedPointsRequest
 {
-    public required string RoadName { get; init; }
+    public string? RoadName { get; init; }
     public required PointDto Coordinates { get; init; }
+    public string? PointType { get; init; }
 }

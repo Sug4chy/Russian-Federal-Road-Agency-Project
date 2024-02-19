@@ -11,7 +11,7 @@ namespace RFRAP.Domain.Handlers.Utility;
 public class AddGasStationHandler(
     IValidator<AddGasStationRequest> validator,
     ISegmentService segmentService,
-    IGasStationService gasStationService)
+    IVerifiedPointsService verifiedPointsService)
 {
     public async Task HandleAsync(AddGasStationRequest request, CancellationToken ct = default)
     {
@@ -24,12 +24,12 @@ public class AddGasStationHandler(
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(
             new PointDto
             {
-                Latitude = request.NewGasStation.Latitude, Longitude = request.NewGasStation.Longitude
+                Latitude = request.NewVerifiedPoint.Latitude, Longitude = request.NewVerifiedPoint.Longitude
             },
             segments!);
         NotFoundException.ThrowIfNull(nearestSegment, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
-        await gasStationService.CreateAndSaveGasStationAsync(request.NewGasStation.Name, nearestSegment,
-            request.NewGasStation.Latitude, request.NewGasStation.Longitude, ct);
+        await verifiedPointsService.CreateAndSaveGasStationAsync(request.NewVerifiedPoint.Name, nearestSegment,
+            request.NewVerifiedPoint.Latitude, request.NewVerifiedPoint.Longitude, ct);
     }
 }

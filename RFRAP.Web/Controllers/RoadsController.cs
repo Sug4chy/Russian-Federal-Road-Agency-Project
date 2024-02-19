@@ -17,11 +17,12 @@ public class RoadsController : ControllerBase
         CancellationToken ct = default)
         => handler.HandleAsync(request with { RoadName = roadName }, ct);
 
-    [HttpGet("gasStations")]
-    public Task<GetGasStationsResponse> GetGasStations(
+    [HttpGet("{pointType}")]
+    public Task<GetVerifiedPointsResponse> GetVerifiedPoints(
         [FromRoute] string roadName,
-        [FromQuery] GetGasStationsRequest request,
+        [FromRoute] string pointType,
+        [FromQuery] GetVerifiedPointsRequest request,
         [FromServices] GetGasStationsHandler handler,
         CancellationToken ct = default)
-        => handler.HandleAsync(request with { RoadName = roadName }, ct);
+        => handler.HandleAsync(request with { RoadName = roadName, PointType = pointType }, ct);
 }

@@ -10,14 +10,14 @@ public class AddGasStationValidator : AbstractValidator<AddGasStationRequest>
         RuleFor(request => request.RoadName)
             .NotNull()
             .NotEmpty();
-        RuleFor(request => request.NewGasStation)
+        RuleFor(request => request.NewVerifiedPoint)
             .NotNull();
-        RuleFor(request => request.NewGasStation.Name)
+        RuleFor(request => request.NewVerifiedPoint.Name)
             .NotEmpty()
             .NotNull();
-        RuleFor(request => request.NewGasStation.Longitude)
+        RuleFor(request => request.NewVerifiedPoint.Longitude)
             .Must(ValidationDefaults.BeLongitude);
-        RuleFor(request => request.NewGasStation.Latitude)
+        RuleFor(request => request.NewVerifiedPoint.Latitude)
             .Must(ValidationDefaults.BeLatitude);
     }
 }

@@ -17,8 +17,8 @@ public class SaveFileForPointHandler(
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
-        var point = await unverifiedPointsService.GetPointByIdAsync(request.UnverifiedPointId, ct);
-        NotFoundException.ThrowIfNull(point, PointErrors.NoSuchPointWithId(request.UnverifiedPointId));
+        var point = await unverifiedPointsService.GetPointByIdAsync(request.UnverifiedPointId!.Value, ct);
+        NotFoundException.ThrowIfNull(point, PointErrors.NoSuchPointWithId(request.UnverifiedPointId.Value));
         ConflictException.ThrowIfNotNull(point!.File, 
             ConflictErrors.ParamIsNotNull(nameof(point), nameof(point.File)));
 

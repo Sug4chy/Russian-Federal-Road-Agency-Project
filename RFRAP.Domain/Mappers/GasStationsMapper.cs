@@ -3,13 +3,14 @@ using RFRAP.Domain.DTOs;
 
 namespace RFRAP.Domain.Mappers;
 
-public class GasStationsMapper : IMapper<GasStation, GasStationDto>
+public class GasStationsMapper : IMapper<VerifiedPoint, VerifiedPointDto>
 {
-    public GasStationDto Map(GasStation from)
+    public VerifiedPointDto Map(VerifiedPoint from)
         => new()
         {
             Name = from.Name,
             Longitude = from.Longitude,
-            Latitude = from.Latitude
+            Latitude = from.Latitude,
+            Type = from.Type
         };
 }

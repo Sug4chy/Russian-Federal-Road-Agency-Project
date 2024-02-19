@@ -3,9 +3,9 @@ using RFRAP.Domain.Requests.Roads;
 
 namespace RFRAP.Domain.Validators.Roads;
 
-public class GetGasStationsRequestValidator : AbstractValidator<GetGasStationsRequest>
+public class GetVerifiedPointsRequestValidator : AbstractValidator<GetVerifiedPointsRequest>
 {
-    public GetGasStationsRequestValidator()
+    public GetVerifiedPointsRequestValidator()
     {
         RuleFor(request => request.RoadName)
             .NotEmpty()
@@ -16,5 +16,9 @@ public class GetGasStationsRequestValidator : AbstractValidator<GetGasStationsRe
             .Must(ValidationDefaults.BeLongitude);
         RuleFor(request => request.Coordinates.Latitude)
             .Must(ValidationDefaults.BeLatitude);
+        RuleFor(request => request.PointType)
+            .NotNull()
+            .NotEmpty()
+            .Must(ValidationDefaults.BeVerifiedPointType);
     }
 }

@@ -14,6 +14,6 @@ public class Segment : AuditableEntity
     public Guid RoadId { get; set; }
     public Road? Road { get; set; }
 
-    public ICollection<GasStation>? GasStations { get; set; }
+    public ICollection<VerifiedPoint> VerifiedPoints { get; set; } = new List<VerifiedPoint>();
     public ICollection<UnverifiedPoint>? UnverifiedPoints { get; set; }
 }

@@ -36,12 +36,12 @@ public class SegmentService(AppDbContext context) : ISegmentService
         return road?.Segments?.ToList();
     }
 
-    public async Task<List<Segment>?> GetSegmentsByRoadNameWithGasStationsAsync(string roadName, 
-        CancellationToken ct = default)
+    public async Task<List<Segment>?> GetSegmentsByRoadNameWithVerifiedPointsAsync(string roadName, 
+        VerifiedPointType pointType, CancellationToken ct = default)
     {
         var road = await context.Roads
             .Include(r => r.Segments)!
-            .ThenInclude(s => s.GasStations)
+            .ThenInclude(s => s.VerifiedPoints.Where(vp => vp.Type == pointType))
             .FirstOrDefaultAsync(r => r.Name == roadName, ct);
         return road?.Segments?.ToList();
     }
