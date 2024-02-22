@@ -24,8 +24,8 @@ public class ErrorHandlingMiddleware(
                     context.Response.StatusCode = exceptionBase.StatusCode;
                     newContent = JsonSerializer.Serialize(new ServerErrorModel
                     {
-                        ErrorCode = exceptionBase.StatusCode,
-                        ErrorMessage = exceptionBase.Message
+                        ErrorCode = exceptionBase.Error.Code,
+                        ErrorMessage = exceptionBase.Error.Description
                     });
                     break;
                 default:
@@ -33,7 +33,7 @@ public class ErrorHandlingMiddleware(
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     newContent = JsonSerializer.Serialize(new ServerErrorModel
                     {
-                        ErrorCode = StatusCodes.Status500InternalServerError,
+                        ErrorCode = ex.GetType().Name,
                         ErrorMessage = ex.Message
                     });
                     break;

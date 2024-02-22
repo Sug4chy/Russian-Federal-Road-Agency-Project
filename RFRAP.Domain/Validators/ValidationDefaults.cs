@@ -17,6 +17,6 @@ public static class ValidationDefaults
     public static bool BeUnverifiedPointType(string type)
         => Enum.TryParse<UnverifiedPointType>(type, out _);
 
-    public static bool BeVerifiedPointType(string type)
-        => Enum.TryParse<VerifiedPointType>(type, out _);
+    public static bool BeVerifiedPointType(string? type)
+        => type is not null && Enum.TryParse<VerifiedPointType>(type, out _);
 }

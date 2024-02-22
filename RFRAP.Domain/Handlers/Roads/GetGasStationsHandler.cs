@@ -22,9 +22,9 @@ public class GetGasStationsHandler(
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var roadSegments = await segmentService
-            .GetSegmentsByRoadNameWithVerifiedPointsAsync(request.RoadName, 
-                Enum.Parse<VerifiedPointType>(request.PointType), ct);
-        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName));
+            .GetSegmentsByRoadNameWithVerifiedPointsAsync(request.RoadName!, 
+                Enum.Parse<VerifiedPointType>(request.PointType!), ct);
+        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName!));
 
         var verifiedPoints = new List<VerifiedPoint>();
         for (int i = 0; i < roadSegments!.Count; i++)

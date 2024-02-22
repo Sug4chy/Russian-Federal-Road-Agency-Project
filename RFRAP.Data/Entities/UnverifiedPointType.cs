@@ -2,8 +2,6 @@
 
 public enum UnverifiedPointType
 {
-    CarAccident,
     RoadDisadvantages,
-    TreatToLife,
     ThirdPartyIllegalActions
 }

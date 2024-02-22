@@ -8,8 +8,8 @@ public class GetVerifiedPointsRequestValidator : AbstractValidator<GetVerifiedPo
     public GetVerifiedPointsRequestValidator()
     {
         RuleFor(request => request.RoadName)
-            .NotEmpty()
-            .NotNull();
+            .NotNull()
+            .NotEmpty();
         RuleFor(request => request.Coordinates)
             .NotNull();
         RuleFor(request => request.Coordinates.Latitude)
