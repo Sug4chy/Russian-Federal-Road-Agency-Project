@@ -9,14 +9,19 @@ using RFRAP.Domain.Handlers.Files;
 using RFRAP.Domain.Handlers.Roads;
 using RFRAP.Domain.Handlers.Utility;
 using RFRAP.Domain.Mappers;
+using RFRAP.Domain.Requests.Auth;
 using RFRAP.Domain.Requests.Files;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Requests.Utility;
+using RFRAP.Domain.Services.Auth;
 using RFRAP.Domain.Services.Files;
 using RFRAP.Domain.Services.GasStations;
 using RFRAP.Domain.Services.Roads;
 using RFRAP.Domain.Services.Segments;
+using RFRAP.Domain.Services.Tokens;
 using RFRAP.Domain.Services.UnverifiedPoints;
+using RFRAP.Domain.Services.Users;
+using RFRAP.Domain.Validators.Auth;
 using RFRAP.Domain.Validators.Files;
 using RFRAP.Domain.Validators.Roads;
 using RFRAP.Domain.Validators.Utility;
@@ -31,7 +36,10 @@ public static class DependencyInjection
             .AddScoped<IUnverifiedPointsService, UnverifiedPointsService>()
             .AddScoped<IGasStationService, GasStationService>()
             .AddScoped<IFileService, FileService>()
-            .AddScoped<IRoadService, RoadService>();
+            .AddScoped<IRoadService, RoadService>()
+            .AddScoped<IUsersService, UsersService>()
+            .AddScoped<IAuthService, AuthService>()
+            .AddScoped<ITokenService, TokenService>();
 
     public static IServiceCollection AddHandlers(this IServiceCollection services)
         => services
@@ -50,7 +58,8 @@ public static class DependencyInjection
             .AddScoped<IValidator<AddGasStationRequest>, AddGasStationValidator>()
             .AddScoped<IValidator<AddSegmentRequest>, AddSegmentRequestValidator>()
             .AddScoped<IValidator<SaveFileForPointRequest>, SaveFileForPointRequestValidator>()
-            .AddScoped<IValidator<AddRoadRequest>, AddRoadRequestValidator>();
+            .AddScoped<IValidator<AddRoadRequest>, AddRoadRequestValidator>()
+            .AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services

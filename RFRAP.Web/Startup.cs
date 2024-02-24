@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RFRAP.Data.Context;
 using RFRAP.Data.Extensions;
+using RFRAP.Domain.ConfigurationOptions.Auth;
 using RFRAP.Domain.ConfigurationOptions.Files;
 using RFRAP.Domain.Extensions;
 using RFRAP.Web.Extensions;
@@ -18,6 +19,7 @@ public class Startup(IConfiguration config)
     {
         services.Configure<UploadFilesOptions>(
             config.GetSection(UploadFilesOptions.Position));
+        services.Configure<JwtConfigurationOptions>(config.GetSection(JwtConfigurationOptions.Position));
         
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>

@@ -1,33 +1,41 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Identity;
-using RFRAP.Data.Entities;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Models;
 using RFRAP.Domain.Requests.Auth;
 using RFRAP.Domain.Responses.Auth;
+using RFRAP.Domain.Services.Auth;
+using RFRAP.Domain.Services.Users;
 
 namespace RFRAP.Domain.Handlers.Auth;
 
-public class RegisterHandler(UserManager<User> manager)
+public class RegisterHandler(
+    IValidator<RegisterRequest> validator, 
+    IAuthService authService,
+    IUsersService usersService)
 {
     public async Task<RegisterResponse> HandleAsync(
         RegisterRequest request, 
         CancellationToken ct = default)
     {
-        var creationResult = await manager.CreateAsync(
-            new User {UserName = request.Name, Email = request.Email, Name = request.Name},
-            request.Password
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+
+        var user = await usersService.CreateUserAsync(request, ct);
+        var registerResult = await authService.RegisterUserAsync(
+            new RegisterModel {User = user, Password = request.Password}, ct
         );
 
-        if (creationResult.Succeeded)
+        if (!registerResult.IsSuccess)
         {
-            return new RegisterResponse
-            {
-                Email = request.Email
-            };
+            UnauthorizedException.ThrowByError(registerResult.Error);
         }
-        
-        throw new BadRequestException(
-            string.Join(", ", creationResult.Errors.Select(e => e.Description))
-        );
+
+        var tokensModel = await authService.GenerateAndSetTokensAsync(user, ct);
+
+        return new RegisterResponse
+        {
+            AccessToken = tokensModel.AccessToken,
+            RefreshToken = tokensModel.RefreshToken
+        };
     }
 }

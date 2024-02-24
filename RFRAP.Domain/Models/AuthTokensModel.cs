@@ -1,6 +1,6 @@
-﻿namespace RFRAP.Domain.Responses.Auth;
+﻿namespace RFRAP.Domain.Models;
 
-public record RegisterResponse
+public record AuthTokensModel
 {
     public required string AccessToken { get; init; }
     public required string RefreshToken { get; init; }
