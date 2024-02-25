@@ -2,6 +2,7 @@
 using RFRAP.Data.Entities;
 using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Responses;
@@ -10,35 +11,45 @@ using RFRAP.Domain.Services.Segments;
 namespace RFRAP.Domain.Handlers.Roads;
 
 public class GetGasStationsHandler(
-    IValidator<GetGasStationsRequest> validator,
+    IValidator<GetVerifiedPointsRequest> validator,
     ISegmentService segmentService,
-    IMapper<GasStation, GasStationDto> mapper)
+    IMapper<VerifiedPoint, VerifiedPointDto> mapper)
 {
-    public async Task<GetGasStationsResponse> HandleAsync(GetGasStationsRequest request, 
+    public async Task<GetVerifiedPointsResponse> HandleAsync(GetVerifiedPointsRequest request, 
         CancellationToken ct = default)
     {
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var roadSegments = await segmentService
-            .GetSegmentsByRoadNameWithGasStationsAsync(request.RoadName!, ct);
-        NotFoundException.ThrowIfNull(roadSegments, nameof(roadSegments));
+            .GetSegmentsByRoadNameWithVerifiedPointsAsync(request.RoadName!, 
+                Enum.Parse<VerifiedPointType>(request.PointType!), ct);
+        NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName!));
 
-        var gasStations = new List<GasStation>();
+        var verifiedPoints = new List<VerifiedPoint>();
         for (int i = 0; i < roadSegments!.Count; i++)
         {
-            var currentSegmentGasStations = roadSegments[i].GasStations
-                                            ?? Array.Empty<GasStation>();
-            gasStations.AddRange(currentSegmentGasStations);
+            var currentSegmentVerifiedPoints = roadSegments[i].VerifiedPoints;
+            verifiedPoints.AddRange(currentSegmentVerifiedPoints);
         }
-        
-        return new GetGasStationsResponse
+
+        var responseVerifiedPoints = verifiedPoints.OrderBy(gs =>
+                Math.Sqrt(Math.Pow(request.Coordinates.Latitude - gs.Latitude, 2)
+                          + Math.Pow(request.Coordinates.Longitude - gs.Longitude, 2)))
+            .Take(10)
+            .Select(mapper.Map).ToArray();
+        return new GetVerifiedPointsResponse
         {
-            GasStations = gasStations.OrderBy(g => 
-                Math.Sqrt(Math.Pow(request.X - g.Coordinates.X, 2) 
-                          + Math.Pow(request.Y - g.Coordinates.Y, 2)))
-                .Take(10)
-                .Select(mapper.Map).ToArray()
+            Points = responseVerifiedPoints,
+            DistancesFromUser = responseVerifiedPoints
+                .Select(vp => segmentService
+                    .GetDistanceFromPointToUserInKm(request.Coordinates, 
+                        new PointDto
+                        {
+                            Latitude = vp.Latitude,
+                            Longitude = vp.Longitude
+                        }))
+                .ToArray()
         };
     }
 }

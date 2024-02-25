@@ -1,15 +1,19 @@
-﻿namespace RFRAP.Domain.Exceptions;
+﻿using RFRAP.Domain.Exceptions.Errors;
 
-public class ConflictException(string message = "") : ExceptionBase(message)
+namespace RFRAP.Domain.Exceptions;
+
+public class ConflictException : ExceptionBase
 {
     public override int StatusCode { get; init; } = 409;
 
-    public static void ThrowIfNotNull(object? o, string objName, string paramName)
+    public static void ThrowIfNotNull(object? o, Error error)
     {
         if (o is not null)
         {
-            throw new ConflictException($"{objName} with that value of field " +
-                                        $"{paramName} already exists");
+            throw new ConflictException
+            {
+                Error = error
+            };
         }
     }
 }

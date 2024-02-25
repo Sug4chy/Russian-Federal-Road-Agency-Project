@@ -34,7 +34,7 @@ public static class DependencyInjection
         => services
             .AddScoped<ISegmentService, SegmentService>()
             .AddScoped<IUnverifiedPointsService, UnverifiedPointsService>()
-            .AddScoped<IGasStationService, GasStationService>()
+            .AddScoped<IVerifiedPointsService, VerifiedPointsService>()
             .AddScoped<IFileService, FileService>()
             .AddScoped<IRoadService, RoadService>()
             .AddScoped<IUsersService, UsersService>()
@@ -54,7 +54,7 @@ public static class DependencyInjection
     public static IServiceCollection AddValidators(this IServiceCollection services)
         => services
             .AddScoped<IValidator<AddUnverifiedPointRequest>, AddUnverifiedPointRequestValidator>()
-            .AddScoped<IValidator<GetGasStationsRequest>, GetGasStationsRequestValidator>()
+            .AddScoped<IValidator<GetVerifiedPointsRequest>, GetVerifiedPointsRequestValidator>()
             .AddScoped<IValidator<AddGasStationRequest>, AddGasStationValidator>()
             .AddScoped<IValidator<AddSegmentRequest>, AddSegmentRequestValidator>()
             .AddScoped<IValidator<SaveFileForPointRequest>, SaveFileForPointRequestValidator>()
@@ -63,7 +63,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services
-            .AddScoped<IMapper<GasStation, GasStationDto>, GasStationsMapper>();
+            .AddScoped<IMapper<VerifiedPoint, VerifiedPointDto>, GasStationsMapper>();
     
     public static IdentityBuilder AddIdentities(this IServiceCollection services)
         => services.AddIdentity<User, IdentityRole>(options =>

@@ -7,19 +7,17 @@ public class AddGasStationValidator : AbstractValidator<AddGasStationRequest>
 {
     public AddGasStationValidator()
     {
-        RuleFor(request => request.RoadName).NotEmpty();
-        RuleFor(request => request.NewGasStation.Name)
+        RuleFor(request => request.RoadName)
+            .NotNull()
+            .NotEmpty();
+        RuleFor(request => request.NewVerifiedPoint)
+            .NotNull();
+        RuleFor(request => request.NewVerifiedPoint.Name)
             .NotEmpty()
             .NotNull();
-        RuleFor(request => request.NewGasStation.X)
-            .Must(BeLongitude);
-        RuleFor(request => request.NewGasStation.Y)
-            .Must(BeLatitude);
+        RuleFor(request => request.NewVerifiedPoint.Longitude)
+            .Must(ValidationDefaults.BeLongitude);
+        RuleFor(request => request.NewVerifiedPoint.Latitude)
+            .Must(ValidationDefaults.BeLatitude);
     }
-
-    private static bool BeLongitude(double x)
-        => x is >= 0D and <= 180D;
-
-    private static bool BeLatitude(double y)
-        => y is >= -90D and <= 90D;
 }

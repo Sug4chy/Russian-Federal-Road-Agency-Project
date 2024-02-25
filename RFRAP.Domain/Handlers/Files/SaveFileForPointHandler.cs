@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Requests.Files;
 using RFRAP.Domain.Services.Files;
 using RFRAP.Domain.Services.UnverifiedPoints;
@@ -16,11 +17,11 @@ public class SaveFileForPointHandler(
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
-        var point = await unverifiedPointsService.GetPointByIdAsync(request.UnverifiedPointId, ct);
-        NotFoundException.ThrowIfNull(point, nameof(point));
-        ConflictException.ThrowIfNotNull(point?.File, nameof(point), 
-            nameof(point.File));
+        var point = await unverifiedPointsService.GetPointByIdAsync(request.UnverifiedPointId!.Value, ct);
+        NotFoundException.ThrowIfNull(point, PointErrors.NoSuchPointWithId(request.UnverifiedPointId.Value));
+        ConflictException.ThrowIfNotNull(point!.File, 
+            ConflictErrors.ParamIsNotNull(nameof(point), nameof(point.File)));
 
-        await fileService.SaveAttachmentFileAsync(request.File, point!, ct);
+        await fileService.SaveAttachmentFileAsync(request.File, point, ct);
     }
 }

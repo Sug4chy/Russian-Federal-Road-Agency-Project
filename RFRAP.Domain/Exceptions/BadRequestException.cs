@@ -2,7 +2,7 @@
 
 namespace RFRAP.Domain.Exceptions;
 
-public class BadRequestException(string message = "") : ExceptionBase(message)
+public class BadRequestException : ExceptionBase
 {
     public override int StatusCode { get; init; } = 400;
 
@@ -10,7 +10,10 @@ public class BadRequestException(string message = "") : ExceptionBase(message)
     {
         if (!validationResult.IsValid)
         {
-            throw new BadRequestException();
+            throw new BadRequestException
+            {
+                Error = Errors.Error.FromValidationFailure(validationResult.Errors[0])
+            };
         }
     }
 }
