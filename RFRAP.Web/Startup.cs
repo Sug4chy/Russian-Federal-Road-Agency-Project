@@ -58,6 +58,9 @@ public class Startup(IConfiguration config)
         services.AddHandlers();
         services.AddIdentities();
 
+        services.AddHttpContextAccessor();
+        services.AddCurrentUserAccessor();
+
         services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;

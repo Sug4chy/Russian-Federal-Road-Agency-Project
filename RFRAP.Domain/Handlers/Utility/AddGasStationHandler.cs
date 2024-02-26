@@ -3,8 +3,8 @@ using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Requests.Utility;
-using RFRAP.Domain.Services.GasStations;
 using RFRAP.Domain.Services.Segments;
+using RFRAP.Domain.Services.VerifiedPoints;
 
 namespace RFRAP.Domain.Handlers.Utility;
 

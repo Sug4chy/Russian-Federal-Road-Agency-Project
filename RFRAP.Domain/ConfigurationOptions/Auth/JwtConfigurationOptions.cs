@@ -8,4 +8,6 @@ public class JwtConfigurationOptions
     public required string ValidAudience { get; init; }
     public required string SymmetricSecurityKey { get; init; }
     public required string JwtRegisteredClaimNamesSub { get; init; }
+    public required int AccessTokenExpirationMinutes { get; init; }
+    public required int RefreshTokenExpirationMinutes { get; init; }
 }

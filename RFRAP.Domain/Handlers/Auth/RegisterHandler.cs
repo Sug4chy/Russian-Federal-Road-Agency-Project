@@ -11,7 +11,7 @@ namespace RFRAP.Domain.Handlers.Auth;
 public class RegisterHandler(
     IValidator<RegisterRequest> validator, 
     IAuthService authService,
-    IUsersService usersService)
+    IUserService userService)
 {
     public async Task<RegisterResponse> HandleAsync(
         RegisterRequest request, 
@@ -20,7 +20,7 @@ public class RegisterHandler(
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
-        var user = await usersService.CreateUserAsync(request, ct);
+        var user = userService.CreateUser(request);
         var registerResult = await authService.RegisterUserAsync(
             new RegisterModel {User = user, Password = request.Password}, ct
         );

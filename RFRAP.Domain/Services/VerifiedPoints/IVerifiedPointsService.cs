@@ -1,6 +1,6 @@
 ﻿using RFRAP.Data.Entities;
 
-namespace RFRAP.Domain.Services.GasStations;
+namespace RFRAP.Domain.Services.VerifiedPoints;
 
 public interface IVerifiedPointsService
 {

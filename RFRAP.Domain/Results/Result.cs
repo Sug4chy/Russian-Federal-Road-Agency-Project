@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
+using RFRAP.Domain.Exceptions.Errors;
 
 namespace RFRAP.Domain.Results;
 

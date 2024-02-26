@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using RFRAP.Domain.Results;
+using RFRAP.Domain.Exceptions.Errors;
 
 namespace RFRAP.Domain.Exceptions;
 
-public class UnauthorizedException(string message = "") : ExceptionBase(message)
+public class UnauthorizedException : ExceptionBase
 {
     public override int StatusCode { get; init; } = StatusCodes.Status401Unauthorized;
 

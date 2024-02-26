@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Models;
 using RFRAP.Domain.Results;
 using RFRAP.Domain.Services.Tokens;
@@ -35,6 +36,26 @@ public class AuthService(
             false
         );
 
+        return Result.Success();
+    }
+    
+    public async Task<Result> LoginUserAsync(LoginModel model, CancellationToken ct = default)
+    {
+        var result = await signInManager.PasswordSignInAsync(
+            model.Email,
+            model.Password,
+            false, 
+            false
+        );
+
+        return result.Succeeded ? Result.Success() : Result.Failure(AuthErrors.SignInError);
+    }
+
+    public async Task<Result> LogoutUserAsync(User user, CancellationToken ct = default)
+    {
+        user.RefreshToken = null;
+        user.RefreshTokenExpirationTime = DateTime.MinValue;
+        await context.SaveChangesAsync(ct);
         return Result.Success();
     }
 

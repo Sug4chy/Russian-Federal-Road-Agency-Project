@@ -3,24 +3,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
+using RFRAP.Domain.Accessors;
 using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Handlers.Auth;
 using RFRAP.Domain.Handlers.Files;
 using RFRAP.Domain.Handlers.Roads;
 using RFRAP.Domain.Handlers.Utility;
 using RFRAP.Domain.Mappers;
+using RFRAP.Domain.Models;
 using RFRAP.Domain.Requests.Auth;
 using RFRAP.Domain.Requests.Files;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Requests.Utility;
 using RFRAP.Domain.Services.Auth;
 using RFRAP.Domain.Services.Files;
-using RFRAP.Domain.Services.GasStations;
 using RFRAP.Domain.Services.Roads;
 using RFRAP.Domain.Services.Segments;
 using RFRAP.Domain.Services.Tokens;
 using RFRAP.Domain.Services.UnverifiedPoints;
 using RFRAP.Domain.Services.Users;
+using RFRAP.Domain.Services.VerifiedPoints;
 using RFRAP.Domain.Validators.Auth;
 using RFRAP.Domain.Validators.Files;
 using RFRAP.Domain.Validators.Roads;
@@ -37,7 +39,7 @@ public static class DependencyInjection
             .AddScoped<IVerifiedPointsService, VerifiedPointsService>()
             .AddScoped<IFileService, FileService>()
             .AddScoped<IRoadService, RoadService>()
-            .AddScoped<IUsersService, UsersService>()
+            .AddScoped<IUserService, UserService>()
             .AddScoped<IAuthService, AuthService>()
             .AddScoped<ITokenService, TokenService>();
 
@@ -49,7 +51,10 @@ public static class DependencyInjection
             .AddScoped<AddSegmentHandler>()
             .AddScoped<SaveFileForPointHandler>()
             .AddScoped<AddRoadHandler>()
-            .AddScoped<RegisterHandler>();
+            .AddScoped<RegisterHandler>()
+            .AddScoped<LoginHandler>()
+            .AddScoped<LogoutHandler>()
+            .AddScoped<RefreshHandler>();
 
     public static IServiceCollection AddValidators(this IServiceCollection services)
         => services
@@ -59,11 +64,14 @@ public static class DependencyInjection
             .AddScoped<IValidator<AddSegmentRequest>, AddSegmentRequestValidator>()
             .AddScoped<IValidator<SaveFileForPointRequest>, SaveFileForPointRequestValidator>()
             .AddScoped<IValidator<AddRoadRequest>, AddRoadRequestValidator>()
-            .AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>();
+            .AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>()
+            .AddScoped<IValidator<LoginRequest>, LoginRequestValidator>()
+            .AddScoped<IValidator<RefreshRequest>, RefreshRequestValidator>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services
-            .AddScoped<IMapper<VerifiedPoint, VerifiedPointDto>, GasStationsMapper>();
+            .AddScoped<IMapper<VerifiedPoint, VerifiedPointDto>, GasStationsMapper>()
+            .AddScoped<IMapper<LoginRequest, LoginModel>, LoginMapper>();
     
     public static IdentityBuilder AddIdentities(this IServiceCollection services)
         => services.AddIdentity<User, IdentityRole>(options =>
@@ -72,4 +80,7 @@ public static class DependencyInjection
         })
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>();
+
+    public static IServiceCollection AddCurrentUserAccessor(this IServiceCollection services)
+        => services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
 }

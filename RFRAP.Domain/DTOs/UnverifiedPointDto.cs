@@ -1,6 +1,4 @@
-﻿using RFRAP.Data.Entities;
-
-namespace RFRAP.Domain.DTOs;
+﻿namespace RFRAP.Domain.DTOs;
 
 public record UnverifiedPointDto
 {
