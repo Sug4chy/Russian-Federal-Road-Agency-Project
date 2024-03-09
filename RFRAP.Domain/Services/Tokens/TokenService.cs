@@ -16,21 +16,13 @@ namespace RFRAP.Domain.Services.Tokens;
 public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenService
 {
     private readonly JwtConfigurationOptions _jwtConfigurationOptions = options.Value;
-
-    private DateTime AccessTokenExpiration => DateTime.UtcNow.AddMinutes(
-        _jwtConfigurationOptions.AccessTokenExpirationMinutes
-    );
-
-    private DateTime RefreshTokenExpiration => DateTime.UtcNow.AddMinutes(
-        _jwtConfigurationOptions.RefreshTokenExpirationMinutes
-    );
     
     public string GenerateAccessToken(User user)
     {
         var token = CreateJwtToken(
             CreateClaims(user),
             CreateSigningCredentials(),
-            AccessTokenExpiration
+            GetAccessTokenExpiration()
         );
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -46,7 +38,7 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
         return new RefreshTokenModel()
         {
             Token = Convert.ToBase64String(randomNumber),
-            TokenExpirationTime = RefreshTokenExpiration
+            TokenExpirationTime = GetRefreshTokenExpiration()
         };
     }
 
@@ -130,4 +122,12 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
         => new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_jwtConfigurationOptions.SymmetricSecurityKey)
         );
+
+    private DateTime GetAccessTokenExpiration()
+        => DateTime.UtcNow.AddMinutes(
+            _jwtConfigurationOptions.AccessTokenExpirationMinutes
+        );
+
+    private DateTime GetRefreshTokenExpiration() =>
+        DateTime.UtcNow.AddDays(_jwtConfigurationOptions.RefreshTokenExpirationDays);
 }
