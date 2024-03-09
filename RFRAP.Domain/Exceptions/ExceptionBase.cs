@@ -1,4 +1,4 @@
-﻿using RFRAP.Domain.Exceptions.Errors;
+using RFRAP.Domain.Exceptions.Errors;
 
 namespace RFRAP.Domain.Exceptions;
 

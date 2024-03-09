@@ -1,7 +1,7 @@
 ﻿using RFRAP.Data.Context;
 using RFRAP.Data.Entities;
 
-namespace RFRAP.Domain.Services.GasStations;
+namespace RFRAP.Domain.Services.VerifiedPoints;
 
 public class VerifiedPointsService(AppDbContext context) : IVerifiedPointsService
 {
