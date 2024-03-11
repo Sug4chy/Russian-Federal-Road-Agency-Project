@@ -6,6 +6,7 @@ using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Responses;
+using RFRAP.Domain.Responses.Roads;
 using RFRAP.Domain.Services.Segments;
 
 namespace RFRAP.Domain.Handlers.Roads;

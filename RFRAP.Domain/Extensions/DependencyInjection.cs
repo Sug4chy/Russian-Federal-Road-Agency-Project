@@ -37,7 +37,8 @@ public static class DependencyInjection
             .AddScoped<AddGasStationHandler>()
             .AddScoped<AddSegmentHandler>()
             .AddScoped<SaveFileForPointHandler>()
-            .AddScoped<AddRoadHandler>();
+            .AddScoped<AddRoadHandler>()
+            .AddScoped<GetAdvertisementsByRoadNameHandler>();
 
     public static IServiceCollection AddValidators(this IServiceCollection services)
         => services
@@ -46,9 +47,12 @@ public static class DependencyInjection
             .AddScoped<IValidator<AddGasStationRequest>, AddGasStationValidator>()
             .AddScoped<IValidator<AddSegmentRequest>, AddSegmentRequestValidator>()
             .AddScoped<IValidator<SaveFileForPointRequest>, SaveFileForPointRequestValidator>()
-            .AddScoped<IValidator<AddRoadRequest>, AddRoadRequestValidator>();
+            .AddScoped<IValidator<AddRoadRequest>, AddRoadRequestValidator>()
+            .AddScoped<IValidator<GetAdvertisementsByRoadNameRequest>, 
+                GetAdvertisementsByRoadNameRequestValidator>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services
-            .AddScoped<IMapper<VerifiedPoint, VerifiedPointDto>, GasStationsMapper>();
+            .AddScoped<IMapper<VerifiedPoint, VerifiedPointDto>, GasStationsMapper>()
+            .AddScoped<IMapper<Advertisement, AdvertisementDto>, AdvertisementsMapper>();
 }

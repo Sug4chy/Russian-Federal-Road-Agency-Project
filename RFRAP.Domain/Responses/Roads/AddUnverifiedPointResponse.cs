@@ -1,4 +1,4 @@
-﻿namespace RFRAP.Domain.Responses;
+﻿namespace RFRAP.Domain.Responses.Roads;
 
 public record AddUnverifiedPointResponse
 {
