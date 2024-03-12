@@ -10,7 +10,7 @@ public class LogoutHandler(
 {
     public async Task HandleAsync(CancellationToken ct = default)
     {
-        var currentUser = await userAccessor.GetCurrentUserAsync(ct);
+        var currentUser = await userAccessor.GetCurrentUser(ct);
         var logoutResult = await authService.LogoutUserAsync(currentUser, ct);
         
         if (!logoutResult.IsSuccess)

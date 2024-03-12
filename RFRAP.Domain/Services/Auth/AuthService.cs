@@ -54,7 +54,7 @@ public class AuthService(
     public async Task<Result> LogoutUserAsync(User user, CancellationToken ct = default)
     {
         user.RefreshToken = null;
-        user.RefreshTokenExpirationTime = DateTime.MinValue;
+        user.RefreshTokenExpirationTime = null;
         await context.SaveChangesAsync(ct);
         return Result.Success();
     }

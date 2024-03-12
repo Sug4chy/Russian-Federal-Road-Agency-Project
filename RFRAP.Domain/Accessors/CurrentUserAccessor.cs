@@ -12,8 +12,8 @@ public class CurrentUserAccessor(
     IUserService userService) : ICurrentUserAccessor
 {
     private readonly HttpContext _context = accessor.HttpContext!;
-    
-    public async Task<User> GetCurrentUserAsync(CancellationToken ct = default)
+
+    public async Task<User> GetCurrentUser(CancellationToken ct = default)
     {
         string userId = _context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
                         throw new UnauthorizedException

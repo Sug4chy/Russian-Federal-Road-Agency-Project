@@ -17,12 +17,25 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
 {
     private readonly JwtConfigurationOptions _jwtConfigurationOptions = options.Value;
     
+    private SymmetricSecurityKey SymmetricSecurityKey 
+        => new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_jwtConfigurationOptions.SymmetricSecurityKey)
+        );
+    
+    private DateTime AccessTokenExpiration 
+        => DateTime.UtcNow.AddMinutes(
+            _jwtConfigurationOptions.AccessTokenExpirationMinutes
+        );
+
+    private DateTime RefreshTokenExpiration 
+        => DateTime.UtcNow.AddDays(_jwtConfigurationOptions.RefreshTokenExpirationDays);
+
     public string GenerateAccessToken(User user)
     {
         var token = CreateJwtToken(
             CreateClaims(user),
             CreateSigningCredentials(),
-            GetAccessTokenExpiration()
+            AccessTokenExpiration
         );
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -38,7 +51,7 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
         return new RefreshTokenModel()
         {
             Token = Convert.ToBase64String(randomNumber),
-            TokenExpirationTime = GetRefreshTokenExpiration()
+            TokenExpirationTime = RefreshTokenExpiration
         };
     }
 
@@ -51,7 +64,7 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
             ValidateAudience = true,
             ValidAudience = _jwtConfigurationOptions.ValidAudience,
             ValidateLifetime = true,
-            IssuerSigningKey = GetSymmetricSecurityKey(),
+            IssuerSigningKey = SymmetricSecurityKey,
             ValidateIssuerSigningKey = true
         };
 
@@ -68,11 +81,14 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
         {
             BadRequestException.ThrowByValidationResult(new ValidationResult
             {
-                Errors = [new ValidationFailure
-                {
-                    ErrorCode = "InvalidToken",
-                    ErrorMessage = "Invalid access token"
-                }]
+                Errors =
+                [
+                    new ValidationFailure
+                    {
+                        ErrorCode = "InvalidToken",
+                        ErrorMessage = "Invalid access token"
+                    }
+                ]
             });
         }
 
@@ -86,8 +102,8 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
             .ToArray();
 
     private JwtSecurityToken CreateJwtToken(
-        List<Claim> claims, 
-        SigningCredentials credentials, 
+        List<Claim> claims,
+        SigningCredentials credentials,
         DateTime expiration)
         => new JwtSecurityToken(
             _jwtConfigurationOptions.ValidIssuer,
@@ -100,10 +116,6 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
     private List<Claim> CreateClaims(User user)
         =>
         [
-            /*new Claim(JwtRegisteredClaimNames.Sub, jwtSub!),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat,
-                DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),*/
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.FirstName),
             new Claim(ClaimTypes.Surname, user.Surname),
@@ -113,21 +125,7 @@ public class TokenService(IOptions<JwtConfigurationOptions> options) : ITokenSer
 
     private SigningCredentials CreateSigningCredentials()
         => new SigningCredentials(
-            GetSymmetricSecurityKey(),
+            SymmetricSecurityKey,
             SecurityAlgorithms.HmacSha256
         );
-
-
-    private SymmetricSecurityKey GetSymmetricSecurityKey()
-        => new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_jwtConfigurationOptions.SymmetricSecurityKey)
-        );
-
-    private DateTime GetAccessTokenExpiration()
-        => DateTime.UtcNow.AddMinutes(
-            _jwtConfigurationOptions.AccessTokenExpirationMinutes
-        );
-
-    private DateTime GetRefreshTokenExpiration() =>
-        DateTime.UtcNow.AddDays(_jwtConfigurationOptions.RefreshTokenExpirationDays);
 }

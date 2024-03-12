@@ -16,13 +16,11 @@ public class UserService(UserManager<User> userManager) : IUserService
             Email = request.Email,
             Role = Role.Manager
         };
-
-    // Норм или как у тебя в birthdays сделать?
-    // И с ct непонятно т.к у менеджера нет такой перегрузки
+    
+    // Надеюсь что так
     public Task<User?> FindUserByEmailAsync(string email, CancellationToken ct = default)
         => userManager.FindByEmailAsync(email);
 
     public Task<User?> FindUserByIdAsync(string id, CancellationToken ct = default)
         => userManager.FindByIdAsync(id);
-
 }
