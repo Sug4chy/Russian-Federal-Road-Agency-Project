@@ -8,7 +8,6 @@ public class AddRoadRequestValidator : AbstractValidator<AddRoadRequest>
     public AddRoadRequestValidator()
     {
         RuleFor(request => request.RoadDto.Name)
-            .NotNull()
             .NotEmpty();
     }
 }

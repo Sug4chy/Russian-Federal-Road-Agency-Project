@@ -5,10 +5,10 @@ namespace RFRAP.Domain.Validators;
 
 public static class ValidationDefaults
 {
-    public static bool BeLongitude(double x)
+    private static bool BeLongitude(double x)
         => x is >= 0D and <= 180D;
 
-    public static bool BeLatitude(double y)
+    private static bool BeLatitude(double y)
         => y is >= -90D and <= 90D;
 
     public static bool BeValidPoint(PointDto point)
@@ -19,4 +19,15 @@ public static class ValidationDefaults
 
     public static bool BeVerifiedPointType(string? type)
         => type is not null && Enum.TryParse<VerifiedPointType>(type, out _);
+
+    public static bool BeValidFileDto(FileDto dto)
+        => dto.FileName != "" && dto.ContentType != "";
+
+    public static bool BeValidUnverifiedPointDto(UnverifiedPointDto dto)
+        => (dto.Description is null || dto.Description.Length != 0)
+           && dto.Type.Length != 0 && BeValidPoint(dto.Coordinates);
+
+    public static bool BeValidVerifiedPointDto(VerifiedPointDto dto)
+        => dto.Name.Length != 0 && BeLatitude(dto.Latitude)
+                                && BeLongitude(dto.Longitude);
 }

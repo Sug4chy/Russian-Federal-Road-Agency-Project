@@ -8,16 +8,9 @@ public class SaveFileForPointRequestValidator : AbstractValidator<SaveFileForPoi
     public SaveFileForPointRequestValidator()
     {
         RuleFor(request => request.UnverifiedPointId)
-            .NotNull();
+            .NotNull()
+            .NotEqual(Guid.Empty);
         RuleFor(request => request.File)
-            .NotNull();
-        RuleFor(request => request.File.FileName)
-            .NotNull()
-            .NotEmpty();
-        RuleFor(request => request.File.ContentType)
-            .NotNull()
-            .NotEmpty();
-        RuleFor(request => request.File.ReadStream)
-            .NotNull();
+            .Must(ValidationDefaults.BeValidFileDto);
     }
 }
