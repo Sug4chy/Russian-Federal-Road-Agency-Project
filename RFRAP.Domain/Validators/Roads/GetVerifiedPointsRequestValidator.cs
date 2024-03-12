@@ -10,15 +10,11 @@ public class GetVerifiedPointsRequestValidator : AbstractValidator<GetVerifiedPo
         RuleFor(request => request.RoadName)
             .NotNull()
             .NotEmpty();
-        RuleFor(request => request.Coordinates)
-            .NotNull();
-        RuleFor(request => request.Coordinates.Latitude)
-            .Must(ValidationDefaults.BeLongitude);
-        RuleFor(request => request.Coordinates.Latitude)
-            .Must(ValidationDefaults.BeLatitude);
         RuleFor(request => request.PointType)
             .NotNull()
             .NotEmpty()
             .Must(ValidationDefaults.BeVerifiedPointType);
+        RuleFor(request => request.Coordinates)
+            .Must(ValidationDefaults.BeValidPoint);
     }
 }

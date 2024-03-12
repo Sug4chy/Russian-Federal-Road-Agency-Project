@@ -19,4 +19,11 @@ public static class ValidationDefaults
 
     public static bool BeVerifiedPointType(string? type)
         => type is not null && Enum.TryParse<VerifiedPointType>(type, out _);
+
+    public static bool BeValidFileDto(FileDto dto)
+        => dto.FileName != "" && dto.ContentType != "";
+
+    public static bool BeValidUnverifiedPointDto(UnverifiedPointDto dto)
+        => (dto.Description is null || dto.Description.Length != 0)
+           && dto.Type.Length != 0 && BeValidPoint(dto.Coordinates);
 }

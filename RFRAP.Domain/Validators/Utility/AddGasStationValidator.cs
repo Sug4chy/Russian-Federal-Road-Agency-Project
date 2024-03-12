@@ -8,7 +8,6 @@ public class AddGasStationValidator : AbstractValidator<AddGasStationRequest>
     public AddGasStationValidator()
     {
         RuleFor(request => request.RoadName)
-            .NotNull()
             .NotEmpty();
         RuleFor(request => request.NewVerifiedPoint)
             .NotNull();
