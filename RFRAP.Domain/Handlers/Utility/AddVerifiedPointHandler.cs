@@ -8,12 +8,12 @@ using RFRAP.Domain.Services.VerifiedPoints;
 
 namespace RFRAP.Domain.Handlers.Utility;
 
-public class AddGasStationHandler(
-    IValidator<AddGasStationRequest> validator,
+public class AddVerifiedPointHandler(
+    IValidator<AddVerifiedPointRequest> validator,
     ISegmentService segmentService,
     IVerifiedPointsService verifiedPointsService)
 {
-    public async Task HandleAsync(AddGasStationRequest request, CancellationToken ct = default)
+    public async Task HandleAsync(AddVerifiedPointRequest request, CancellationToken ct = default)
     {
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
@@ -29,7 +29,6 @@ public class AddGasStationHandler(
             segments!);
         NotFoundException.ThrowIfNull(nearestSegment, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
-        await verifiedPointsService.CreateAndSaveGasStationAsync(request.NewVerifiedPoint.Name, nearestSegment,
-            request.NewVerifiedPoint.Latitude, request.NewVerifiedPoint.Longitude, ct);
+        await verifiedPointsService.CreateVerifiedPointAsync(request.NewVerifiedPoint, nearestSegment, ct);
     }
 }

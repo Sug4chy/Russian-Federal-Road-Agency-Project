@@ -27,7 +27,7 @@ public class AddUnverifiedPointHandler(
             roadSegments!);
 
         var newPoint = await unverifiedPointsService
-            .CreateAndSavePointAsync(request.Point,
+            .CreatePointAsync(request.Point,
                 nearestSegment, ct);
         return new AddUnverifiedPointResponse
         {

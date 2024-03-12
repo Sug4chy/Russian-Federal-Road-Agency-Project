@@ -7,5 +7,5 @@ public interface IRoadService
 {
     Task<Road?> GetRoadByNameAsync(string roadName, CancellationToken ct = default);
     Task<Road?> GetRoadWithAdvertisementsByNameAsync(string roadName, CancellationToken ct = default);
-    Task CreateAndSaveAsync(RoadDto road, CancellationToken ct = default);
+    Task CreateRoadAsync(RoadDto road, CancellationToken ct = default);
 }

@@ -7,7 +7,7 @@ namespace RFRAP.Domain.Services.UnverifiedPoints;
 
 public class UnverifiedPointsService(AppDbContext context) : IUnverifiedPointsService
 {
-    public async Task<UnverifiedPoint> CreateAndSavePointAsync(UnverifiedPointDto pointDto, Segment segment,
+    public async Task<UnverifiedPoint> CreatePointAsync(UnverifiedPointDto pointDto, Segment segment,
         CancellationToken ct = default)
     {
         var newPoint = new UnverifiedPoint

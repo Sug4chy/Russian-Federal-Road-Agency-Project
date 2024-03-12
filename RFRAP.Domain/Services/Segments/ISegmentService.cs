@@ -10,5 +10,4 @@ public interface ISegmentService
     Task<List<Segment>?> GetSegmentsByRoadNameWithVerifiedPointsAsync(
         string roadName, VerifiedPointType pointType, CancellationToken ct = default);
     Task CreateAndSaveSegmentAsync(SegmentDto dto, Road road, CancellationToken ct = default);
-    double GetDistanceFromPointToUserInKm(PointDto userCoordinates, PointDto pointCoordinates);
 }

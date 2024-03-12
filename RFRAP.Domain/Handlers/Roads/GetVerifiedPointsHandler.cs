@@ -5,16 +5,17 @@ using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Mappers;
 using RFRAP.Domain.Requests.Roads;
-using RFRAP.Domain.Responses;
 using RFRAP.Domain.Responses.Roads;
+using RFRAP.Domain.Services.Distance;
 using RFRAP.Domain.Services.Segments;
 
 namespace RFRAP.Domain.Handlers.Roads;
 
-public class GetGasStationsHandler(
+public class GetVerifiedPointsHandler(
     IValidator<GetVerifiedPointsRequest> validator,
     ISegmentService segmentService,
-    IMapper<VerifiedPoint, VerifiedPointDto> mapper)
+    IMapper<VerifiedPoint, VerifiedPointDto> mapper,
+    IDistanceCalculator distanceCalculator)
 {
     public async Task<GetVerifiedPointsResponse> HandleAsync(GetVerifiedPointsRequest request, 
         CancellationToken ct = default)
@@ -43,8 +44,8 @@ public class GetGasStationsHandler(
         {
             Points = responseVerifiedPoints,
             DistancesFromUser = responseVerifiedPoints
-                .Select(vp => segmentService
-                    .GetDistanceFromPointToUserInKm(request.Coordinates, 
+                .Select(vp => distanceCalculator
+                    .GetDistanceFromUserToPointInKm(request.Coordinates, 
                         new PointDto
                         {
                             Latitude = vp.Latitude,

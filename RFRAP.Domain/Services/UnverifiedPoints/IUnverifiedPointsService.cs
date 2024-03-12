@@ -5,7 +5,7 @@ namespace RFRAP.Domain.Services.UnverifiedPoints;
 
 public interface IUnverifiedPointsService
 {
-    Task<UnverifiedPoint> CreateAndSavePointAsync(
+    Task<UnverifiedPoint> CreatePointAsync(
         UnverifiedPointDto pointDto, Segment segment, CancellationToken ct = default);
 
     Task<UnverifiedPoint?> GetPointByIdAsync(Guid pointId, CancellationToken ct = default);

@@ -20,6 +20,6 @@ public class AddRoadHandler(
             ConflictErrors.AlreadyExistsWithUniqueValue(nameof(road),
                 nameof(road.Name), road?.Name!));
         
-        await roadService.CreateAndSaveAsync(request.RoadDto, ct);
+        await roadService.CreateRoadAsync(request.RoadDto, ct);
     }
 }

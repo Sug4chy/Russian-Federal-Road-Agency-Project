@@ -23,7 +23,7 @@ public class RoadsController : ControllerBase
         [FromRoute] string roadName,
         [FromRoute] string pointType,
         [FromQuery] GetVerifiedPointsRequest request,
-        [FromServices] GetGasStationsHandler handler,
+        [FromServices] GetVerifiedPointsHandler handler,
         CancellationToken ct = default)
         => handler.HandleAsync(request with { RoadName = roadName, PointType = pointType }, ct);
 

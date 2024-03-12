@@ -5,7 +5,7 @@ namespace RFRAP.Domain.Services.VerifiedPoints;
 
 public interface IVerifiedPointsService
 {
-    Task CreateAndSaveGasStationAsync(string name, Segment segment, double latitude, double longitude, 
+    Task CreateVerifiedPointAsync(VerifiedPointDto dto, Segment segment,
         CancellationToken ct = default);
 
     Task<IEnumerable<VerifiedPoint>> GetVerifiedPointsInRadiusAsync(PointDto userCoordinates, double radiusInKm,

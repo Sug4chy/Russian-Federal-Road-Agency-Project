@@ -11,8 +11,8 @@ public class UtilityController : ControllerBase
     [HttpPost("{roadName}/gasStations")]
     public Task AddGasStation(
         [FromRoute] string roadName,
-        [FromBody] AddGasStationRequest request,
-        [FromServices] AddGasStationHandler handler,
+        [FromBody] AddVerifiedPointRequest request,
+        [FromServices] AddVerifiedPointHandler handler,
         CancellationToken ct = default)
         => handler.HandleAsync(request with {RoadName = roadName}, ct);
 

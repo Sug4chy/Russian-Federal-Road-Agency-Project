@@ -3,9 +3,9 @@ using RFRAP.Domain.Requests.Utility;
 
 namespace RFRAP.Domain.Validators.Utility;
 
-public class AddGasStationValidator : AbstractValidator<AddGasStationRequest>
+public class AddVerifiedPointValidator : AbstractValidator<AddVerifiedPointRequest>
 {
-    public AddGasStationValidator()
+    public AddVerifiedPointValidator()
     {
         RuleFor(request => request.RoadName)
             .NotEmpty();

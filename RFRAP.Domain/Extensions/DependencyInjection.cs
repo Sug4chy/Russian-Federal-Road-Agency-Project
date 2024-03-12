@@ -11,6 +11,7 @@ using RFRAP.Domain.Requests.Files;
 using RFRAP.Domain.Requests.Mobile;
 using RFRAP.Domain.Requests.Roads;
 using RFRAP.Domain.Requests.Utility;
+using RFRAP.Domain.Services.Distance;
 using RFRAP.Domain.Services.Files;
 using RFRAP.Domain.Services.Roads;
 using RFRAP.Domain.Services.Segments;
@@ -31,13 +32,14 @@ public static class DependencyInjection
             .AddScoped<IUnverifiedPointsService, UnverifiedPointsService>()
             .AddScoped<IVerifiedPointsService, VerifiedPointsService>()
             .AddScoped<IFileService, FileService>()
-            .AddScoped<IRoadService, RoadService>();
+            .AddScoped<IRoadService, RoadService>()
+            .AddScoped<IDistanceCalculator, DistanceCalculator>();
 
     public static IServiceCollection AddHandlers(this IServiceCollection services)
         => services
             .AddScoped<AddUnverifiedPointHandler>()
-            .AddScoped<GetGasStationsHandler>()
-            .AddScoped<AddGasStationHandler>()
+            .AddScoped<GetVerifiedPointsHandler>()
+            .AddScoped<AddVerifiedPointHandler>()
             .AddScoped<AddSegmentHandler>()
             .AddScoped<SaveFileForPointHandler>()
             .AddScoped<AddRoadHandler>()
@@ -48,7 +50,7 @@ public static class DependencyInjection
         => services
             .AddScoped<IValidator<AddUnverifiedPointRequest>, AddUnverifiedPointRequestValidator>()
             .AddScoped<IValidator<GetVerifiedPointsRequest>, GetVerifiedPointsRequestValidator>()
-            .AddScoped<IValidator<AddGasStationRequest>, AddGasStationValidator>()
+            .AddScoped<IValidator<AddVerifiedPointRequest>, AddVerifiedPointValidator>()
             .AddScoped<IValidator<AddSegmentRequest>, AddSegmentRequestValidator>()
             .AddScoped<IValidator<SaveFileForPointRequest>, SaveFileForPointRequestValidator>()
             .AddScoped<IValidator<AddRoadRequest>, AddRoadRequestValidator>()

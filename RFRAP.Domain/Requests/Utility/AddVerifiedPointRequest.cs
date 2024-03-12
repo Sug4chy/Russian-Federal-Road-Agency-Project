@@ -2,7 +2,7 @@
 
 namespace RFRAP.Domain.Requests.Utility;
 
-public record AddGasStationRequest
+public record AddVerifiedPointRequest
 {
     public required string RoadName { get; init; }
     public required VerifiedPointDto NewVerifiedPoint { get; init; }
