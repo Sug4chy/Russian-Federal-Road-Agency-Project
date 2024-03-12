@@ -25,7 +25,8 @@ public static class ValidationDefaults
 
     public static bool BeValidUnverifiedPointDto(UnverifiedPointDto dto)
         => (dto.Description is null || dto.Description.Length != 0)
-           && dto.Type.Length != 0 && BeValidPoint(dto.Coordinates);
+           && dto.Type.Length != 0 && BeUnverifiedPointType(dto.Type) 
+           && BeValidPoint(dto.Coordinates);
 
     public static bool BeValidVerifiedPointDto(VerifiedPointDto dto)
         => dto.Name.Length != 0 && BeLatitude(dto.Latitude)
