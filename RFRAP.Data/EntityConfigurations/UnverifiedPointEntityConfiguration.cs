@@ -23,5 +23,6 @@ public class UnverifiedPointEntityConfiguration : IEntityTypeConfiguration<Unver
             .HasForeignKey<AttachmentFile>(af => af.PointId);
 
         builder.Property(up => up.Type).HasConversion<string>();
+        builder.HasQueryFilter(up => up.DeletedAt != null);
     }
 }

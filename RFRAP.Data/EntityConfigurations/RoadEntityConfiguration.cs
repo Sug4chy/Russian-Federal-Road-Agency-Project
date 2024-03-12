@@ -18,5 +18,7 @@ public class RoadEntityConfiguration : IEntityTypeConfiguration<Road>
             .WithOne(s => s.Road)
             .HasForeignKey(s => s.RoadId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasQueryFilter(r => r.DeletedAt != null);
     }
 }

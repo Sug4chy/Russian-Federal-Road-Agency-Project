@@ -18,5 +18,6 @@ public class VerifiedPointEntityConfiguration : IEntityTypeConfiguration<Verifie
             .HasForeignKey(vp => vp.SegmentId);
 
         builder.Property(vp => vp.Type).HasConversion<string>();
+        builder.HasQueryFilter(vp => vp.DeletedAt != null);
     }
 }
