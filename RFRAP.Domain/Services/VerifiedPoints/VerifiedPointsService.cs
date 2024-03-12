@@ -16,8 +16,8 @@ public class VerifiedPointsService(AppDbContext context,
             Name = dto.Name,
             SegmentId = segment.Id,
             Segment = segment,
-            Longitude = dto.Longitude,
-            Latitude = dto.Latitude,
+            Longitude = dto.Coordinates.Longitude,
+            Latitude = dto.Coordinates.Latitude,
             Type = dto.Type
         };
 

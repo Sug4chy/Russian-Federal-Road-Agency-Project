@@ -8,9 +8,12 @@ public class MobileVerifiedPointMapper : IMapper<VerifiedPoint, MobileVerifiedPo
     public MobileVerifiedPointDto Map(VerifiedPoint from)
         => new()
         {
-            Latitude = from.Latitude,
-            Longitude = from.Longitude,
             Name = from.Name,
+            Coordinates = new PointDto
+            {
+                Longitude = from.Longitude,
+                Latitude = from.Latitude
+            },
             Type = from.Type
         };
 }

@@ -29,6 +29,5 @@ public static class ValidationDefaults
            && BeValidPoint(dto.Coordinates);
 
     public static bool BeValidVerifiedPointDto(VerifiedPointDto dto)
-        => dto.Name.Length != 0 && BeLatitude(dto.Latitude)
-                                && BeLongitude(dto.Longitude);
+        => dto.Name.Length != 0 && BeValidPoint(dto.Coordinates);
 }

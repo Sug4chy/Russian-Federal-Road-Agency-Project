@@ -9,7 +9,7 @@ namespace RFRAP.Web.Controllers;
 [Route("/api/[controller]")]
 public class FilesController : ControllerBase
 {
-    [HttpPost("unverified/{pointId}")]
+    [HttpPost("unverified/{pointId:guid}")]
     public Task SaveFileForPoint(
         [FromForm] IFormFile formFile,
         [FromRoute] Guid pointId,

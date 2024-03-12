@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using RFRAP.Domain.DTOs;
 using RFRAP.Domain.Exceptions;
 using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Requests.Utility;
@@ -22,10 +21,7 @@ public class AddVerifiedPointHandler(
         NotFoundException.ThrowIfNull(segments, RoadErrors.NoSuchRoadWithName(request.RoadName));
 
         var nearestSegment = segmentService.GetNearestSegmentByCoordinates(
-            new PointDto
-            {
-                Latitude = request.NewVerifiedPoint.Latitude, Longitude = request.NewVerifiedPoint.Longitude
-            },
+            request.NewVerifiedPoint.Coordinates,
             segments!);
         NotFoundException.ThrowIfNull(nearestSegment, RoadErrors.NoSuchRoadWithName(request.RoadName));
 

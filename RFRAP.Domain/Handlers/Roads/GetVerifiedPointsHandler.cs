@@ -17,14 +17,14 @@ public class GetVerifiedPointsHandler(
     IMapper<VerifiedPoint, VerifiedPointDto> mapper,
     IDistanceCalculator distanceCalculator)
 {
-    public async Task<GetVerifiedPointsResponse> HandleAsync(GetVerifiedPointsRequest request, 
+    public async Task<GetVerifiedPointsResponse> HandleAsync(GetVerifiedPointsRequest request,
         CancellationToken ct = default)
     {
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var roadSegments = await segmentService
-            .GetSegmentsByRoadNameWithVerifiedPointsAsync(request.RoadName!, 
+            .GetSegmentsByRoadNameWithVerifiedPointsAsync(request.RoadName!,
                 Enum.Parse<VerifiedPointType>(request.PointType!), ct);
         NotFoundException.ThrowIfNull(roadSegments, RoadErrors.NoSuchRoadWithName(request.RoadName!));
 
@@ -38,19 +38,23 @@ public class GetVerifiedPointsHandler(
         var responseVerifiedPoints = verifiedPoints.OrderBy(gs =>
                 Math.Sqrt(Math.Pow(request.Coordinates.Latitude - gs.Latitude, 2)
                           + Math.Pow(request.Coordinates.Longitude - gs.Longitude, 2)))
+            .Where(vp => distanceCalculator
+                .GetDistanceFromUserToPointInKm(request.Coordinates,
+                    new PointDto
+                    {
+                        Latitude = vp.Latitude,
+                        Longitude = vp.Longitude
+                    }) <= 50)
             .Take(10)
-            .Select(mapper.Map).ToArray();
+            .Select(mapper.Map)
+            .ToArray();
         return new GetVerifiedPointsResponse
         {
             Points = responseVerifiedPoints,
             DistancesFromUser = responseVerifiedPoints
                 .Select(vp => distanceCalculator
-                    .GetDistanceFromUserToPointInKm(request.Coordinates, 
-                        new PointDto
-                        {
-                            Latitude = vp.Latitude,
-                            Longitude = vp.Longitude
-                        }))
+                    .GetDistanceFromUserToPointInKm(request.Coordinates,
+                        vp.Coordinates))
                 .ToArray()
         };
     }
