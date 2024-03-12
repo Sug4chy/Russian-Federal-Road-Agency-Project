@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RFRAP.Domain.Handlers.Roads;
 using RFRAP.Domain.Requests.Roads;
-using RFRAP.Domain.Responses;
 using RFRAP.Domain.Responses.Roads;
 
 namespace RFRAP.Web.Controllers;

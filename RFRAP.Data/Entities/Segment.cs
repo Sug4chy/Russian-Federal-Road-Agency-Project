@@ -1,5 +1,4 @@
-﻿using NpgsqlTypes;
-using RFRAP.Data.Entities.Audits;
+﻿using RFRAP.Data.Entities.Audits;
 
 namespace RFRAP.Data.Entities;
 

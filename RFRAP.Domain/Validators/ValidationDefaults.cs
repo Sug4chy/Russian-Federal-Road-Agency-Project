@@ -14,7 +14,7 @@ public static class ValidationDefaults
     public static bool BeValidPoint(PointDto point)
         => BeLongitude(point.Longitude) && BeLatitude(point.Latitude);
 
-    public static bool BeUnverifiedPointType(string type)
+    private static bool BeUnverifiedPointType(string type)
         => Enum.TryParse<UnverifiedPointType>(type, out _);
 
     public static bool BeVerifiedPointType(string? type)
@@ -25,7 +25,7 @@ public static class ValidationDefaults
 
     public static bool BeValidUnverifiedPointDto(UnverifiedPointDto dto)
         => (dto.Description is null || dto.Description.Length != 0)
-           && dto.Type.Length != 0 && BeUnverifiedPointType(dto.Type) 
+           && BeUnverifiedPointType(dto.Type) 
            && BeValidPoint(dto.Coordinates);
 
     public static bool BeValidVerifiedPointDto(VerifiedPointDto dto)
