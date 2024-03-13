@@ -1,0 +1,42 @@
+﻿version: "2.23"
+
+networks:
+  net-dev:
+    driver: bridge
+    
+services:
+  tg-bot:
+    container_name: tg-bot
+    image: sug4chy/rfrap_tg_bot:latest
+    build:
+      context: .
+      dockerfile: Bot-client/Dockerfile
+  backend:
+    container_name: rfrap_backend
+    image: sug4chy/rfrap_backend:latest
+    build:
+      context: .
+      dockerfile: RFRAP.Web/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+
+    depends_on: 
+      - database
+    ports:
+      - "5137:80"
+    volumes:
+      - upload_files_data:/upload
+  database:
+    container_name: postgres_db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postGet5243
+      POSTGRES_DB: rfrap_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_data:
+    upload_files_data:
