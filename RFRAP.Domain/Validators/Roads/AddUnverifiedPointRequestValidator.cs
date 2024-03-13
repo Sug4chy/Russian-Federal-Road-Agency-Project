@@ -9,15 +9,7 @@ public class AddUnverifiedPointRequestValidator : AbstractValidator<AddUnverifie
     {
         RuleFor(request => request.RoadName)
             .NotEmpty();
-        RuleFor(request => request.X)
-            .Must(BeLongitude);
-        RuleFor(request => request.Y)
-            .Must(BeLatitude);
+        RuleFor(request => request.Point)
+            .Must(ValidationDefaults.BeValidUnverifiedPointDto);
     }
-    
-    private static bool BeLongitude(double x)
-        => x is >= 0D and <= 180D;
-
-    private static bool BeLatitude(double y)
-        => y is >= -90D and <= 90D;
 }

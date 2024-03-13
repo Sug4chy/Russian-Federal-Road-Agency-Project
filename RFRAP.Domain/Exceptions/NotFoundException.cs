@@ -1,14 +1,19 @@
-﻿namespace RFRAP.Domain.Exceptions;
+﻿using RFRAP.Domain.Exceptions.Errors;
 
-public class NotFoundException(string message = "") : ExceptionBase(message)
+namespace RFRAP.Domain.Exceptions;
+
+public class NotFoundException : ExceptionBase
 {
     public override int StatusCode { get; init; } = 404;
 
-    public static void ThrowIfNull(object? o, string argumentName)
+    public static void ThrowIfNull(object? o, Error error)
     {
         if (o is null)
         {
-            throw new NotFoundException($"{argumentName} was null");
+            throw new NotFoundException
+            {
+                Error = error
+            };
         }
     }
 }

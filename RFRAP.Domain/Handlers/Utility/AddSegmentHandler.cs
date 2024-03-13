@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using RFRAP.Domain.Exceptions;
+using RFRAP.Domain.Exceptions.Errors;
 using RFRAP.Domain.Requests.Utility;
 using RFRAP.Domain.Services.Roads;
 using RFRAP.Domain.Services.Segments;
@@ -17,7 +18,7 @@ public class AddSegmentHandler(
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var road = await roadService.GetRoadByNameAsync(request.RoadName!, ct);
-        NotFoundException.ThrowIfNull(road, nameof(road));
+        NotFoundException.ThrowIfNull(road, RoadErrors.NoSuchRoadWithName(request.RoadName!));
 
         await segmentService.CreateAndSaveSegmentAsync(request.Segment, road!, ct);
     }

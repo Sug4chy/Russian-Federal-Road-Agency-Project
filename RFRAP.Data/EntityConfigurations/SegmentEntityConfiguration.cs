@@ -18,11 +18,13 @@ public class SegmentEntityConfiguration : IEntityTypeConfiguration<Segment>
             .HasForeignKey(s => s.RoadId);
 
         builder
-            .HasMany(s => s.GasStations)
-            .WithOne(gs => gs.Segment);
+            .HasMany(s => s.VerifiedPoints)
+            .WithOne(vp => vp.Segment);
         
         builder
             .HasMany(s => s.UnverifiedPoints)
             .WithOne(up => up.Segment);
+
+        builder.HasQueryFilter(s => s.DeletedAt != null);
     }
 }

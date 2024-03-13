@@ -2,6 +2,6 @@
 
 public record PointDto
 {
-    public required double X { get; init; }
-    public required double Y { get; init; }
+    public required double Longitude { get; init; }
+    public required double Latitude { get; init; }
 }

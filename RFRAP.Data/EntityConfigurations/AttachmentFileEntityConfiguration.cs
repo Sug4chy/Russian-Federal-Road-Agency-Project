@@ -14,7 +14,9 @@ public class AttachmentFileEntityConfiguration : IEntityTypeConfiguration<Attach
         builder.HasAlternateKey(af => af.UniqueName);
 
         builder.HasOne(af => af.Point)
-            .WithOne(uv => uv.File)
+            .WithOne(up => up.File)
             .HasForeignKey<AttachmentFile>(af => af.PointId);
+
+        builder.HasQueryFilter(af => af.DeletedAt != null);
     }
 }

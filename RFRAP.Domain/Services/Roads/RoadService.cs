@@ -8,9 +8,15 @@ namespace RFRAP.Domain.Services.Roads;
 public class RoadService(AppDbContext context) : IRoadService
 {
     public Task<Road?> GetRoadByNameAsync(string roadName, CancellationToken ct = default)
-        => context.Roads.FirstOrDefaultAsync(r => r.Name == roadName, ct);
+        => context.Roads
+            .FirstOrDefaultAsync(r => r.Name == roadName, ct);
 
-    public async Task CreateAndSaveAsync(RoadDto dto, CancellationToken ct = default)
+    public Task<Road?> GetRoadWithAdvertisementsByNameAsync(string roadName, CancellationToken ct = default)
+        => context.Roads
+            .Include(r => r.Advertisements)
+            .FirstOrDefaultAsync(r => r.Name.Equals(roadName), ct);
+
+    public async Task CreateRoadAsync(RoadDto dto, CancellationToken ct = default)
     {
         var road = new Road
         {

@@ -6,7 +6,8 @@ namespace RFRAP.Data.Context.Interceptors;
 
 public class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
 {
-    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result,
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
+        InterceptionResult<int> result,
         CancellationToken cancellationToken = new())
     {
         var dbContext = eventData.Context;
@@ -17,6 +18,12 @@ public class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
 
         foreach (var entry in dbContext.ChangeTracker.Entries<IAuditableEntity>())
         {
+            if (entry is { State: EntityState.Deleted })
+            {
+                entry.State = EntityState.Modified;
+                entry.Property(ae => ae.DeletedAt).CurrentValue = DateTime.UtcNow;
+            }
+
             switch (entry.State)
             {
                 case EntityState.Detached:
@@ -24,8 +31,6 @@ public class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
                 case EntityState.Unchanged:
                     break;
                 case EntityState.Deleted:
-                    entry.Property(ae => ae.LastlyEditedAt).CurrentValue = DateTime.UtcNow;
-                    entry.Property(ae => ae.DeletedAt).CurrentValue = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
                     entry.Property(ae => ae.LastlyEditedAt).CurrentValue = DateTime.UtcNow;
@@ -38,7 +43,7 @@ public class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
                     continue;
             }
         }
-        
+
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 }

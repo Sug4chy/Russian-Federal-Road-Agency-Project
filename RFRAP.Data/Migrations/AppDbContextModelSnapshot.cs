@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using NpgsqlTypes;
 using RFRAP.Data.Context;
 
 #nullable disable
@@ -22,6 +21,42 @@ namespace RFRAP.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("RFRAP.Data.Entities.Advertisement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpirationDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastlyEditedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MessageText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("RoadId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoadId");
+
+                    b.ToTable("advertisement", (string)null);
+                });
 
             modelBuilder.Entity("RFRAP.Data.Entities.AttachmentFile", b =>
                 {
@@ -56,39 +91,7 @@ namespace RFRAP.Data.Migrations
                     b.HasIndex("PointId")
                         .IsUnique();
 
-                    b.ToTable("AttachmentFile", (string)null);
-                });
-
-            modelBuilder.Entity("RFRAP.Data.Entities.GasStation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<NpgsqlPoint>("Coordinates")
-                        .HasColumnType("point");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastlyEditedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("SegmentId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SegmentId");
-
-                    b.ToTable("gas_station", (string)null);
+                    b.ToTable("attachment_file", (string)null);
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.Road", b =>
@@ -132,11 +135,17 @@ namespace RFRAP.Data.Migrations
                     b.Property<DateTime>("LastlyEditedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<NpgsqlPoint>("Point1")
-                        .HasColumnType("point");
+                    b.Property<double>("Latitude1")
+                        .HasColumnType("double precision");
 
-                    b.Property<NpgsqlPoint>("Point2")
-                        .HasColumnType("point");
+                    b.Property<double>("Latitude2")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitude1")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitude2")
+                        .HasColumnType("double precision");
 
                     b.Property<Guid>("RoadId")
                         .HasColumnType("uuid");
@@ -154,14 +163,14 @@ namespace RFRAP.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<NpgsqlPoint>("Coordinates")
-                        .HasColumnType("point");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
@@ -169,14 +178,74 @@ namespace RFRAP.Data.Migrations
                     b.Property<DateTime>("LastlyEditedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision");
+
                     b.Property<Guid>("SegmentId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SegmentId");
 
                     b.ToTable("unverified_point", (string)null);
+                });
+
+            modelBuilder.Entity("RFRAP.Data.Entities.VerifiedPoint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastlyEditedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SegmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SegmentId");
+
+                    b.ToTable("verified_point", (string)null);
+                });
+
+            modelBuilder.Entity("RFRAP.Data.Entities.Advertisement", b =>
+                {
+                    b.HasOne("RFRAP.Data.Entities.Road", "Road")
+                        .WithMany("Advertisements")
+                        .HasForeignKey("RoadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Road");
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.AttachmentFile", b =>
@@ -188,17 +257,6 @@ namespace RFRAP.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Point");
-                });
-
-            modelBuilder.Entity("RFRAP.Data.Entities.GasStation", b =>
-                {
-                    b.HasOne("RFRAP.Data.Entities.Segment", "Segment")
-                        .WithMany("GasStations")
-                        .HasForeignKey("SegmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Segment");
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.Segment", b =>
@@ -223,16 +281,29 @@ namespace RFRAP.Data.Migrations
                     b.Navigation("Segment");
                 });
 
+            modelBuilder.Entity("RFRAP.Data.Entities.VerifiedPoint", b =>
+                {
+                    b.HasOne("RFRAP.Data.Entities.Segment", "Segment")
+                        .WithMany("VerifiedPoints")
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Segment");
+                });
+
             modelBuilder.Entity("RFRAP.Data.Entities.Road", b =>
                 {
+                    b.Navigation("Advertisements");
+
                     b.Navigation("Segments");
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.Segment", b =>
                 {
-                    b.Navigation("GasStations");
-
                     b.Navigation("UnverifiedPoints");
+
+                    b.Navigation("VerifiedPoints");
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.UnverifiedPoint", b =>
