@@ -30,7 +30,7 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postGet5243
+      POSTGRES_PASSWORD: docker
       POSTGRES_DB: rfrap_db
     ports:
       - "5432:5432"
