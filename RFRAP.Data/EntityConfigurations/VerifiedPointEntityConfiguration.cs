@@ -18,7 +18,7 @@ public class VerifiedPointEntityConfiguration : IEntityTypeConfiguration<Verifie
             .HasForeignKey(vp => vp.SegmentId);
 
         builder.Property(vp => vp.Type).HasConversion<string>();
-        builder.HasQueryFilter(vp => vp.DeletedAt != null);
+        builder.HasQueryFilter(vp => vp.DeletedAt == null);
 
         builder.HasData(new VerifiedPoint
         {
@@ -59,6 +59,22 @@ public class VerifiedPointEntityConfiguration : IEntityTypeConfiguration<Verifie
             Longitude = 62.032693,
             Name = "Челябнефтепродукт",
             SegmentId = new Guid("c9db979a-5842-4783-9f49-6bfe049879ff"),
+            Type = VerifiedPointType.GasStations
+        }, new VerifiedPoint
+        {
+            Id = Guid.NewGuid(),
+            Longitude = 60.86913843486,
+            Latitude = 54.95176905365223,
+            Name = "Газпромнефть",
+            SegmentId = new Guid("4b4a2da6-f246-42be-a991-4ff710a543ef"),
+            Type = VerifiedPointType.GasStations
+        }, new VerifiedPoint
+        {
+            Id = Guid.NewGuid(),
+            Longitude = 61.25754815771407,
+            Latitude = 55.01085038793275,
+            Name = "Salavat",
+            SegmentId = new Guid("4b4a2da6-f246-42be-a991-4ff710a543ef"),
             Type = VerifiedPointType.GasStations
         });
     }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RFRAP.Data.Context;
@@ -11,9 +12,11 @@ using RFRAP.Data.Context;
 namespace RFRAP.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240316101422_Added2MoreDefaultGasStations")]
+    partial class Added2MoreDefaultGasStations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,9 +63,9 @@ namespace RFRAP.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("514146f9-bb1f-4b93-af97-dc9f7f957a13"),
+                            Id = new Guid("1574f607-1c3e-4cde-9863-33ba6d1ca974"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ExpirationDateTime = new DateTime(2024, 3, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpirationDateTime = new DateTime(2024, 3, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MessageText = "На дороге всё спокойно, просто тестируем объявления",
                             RoadId = new Guid("0d396ef7-78e3-4980-9d78-a61df9ee1f89"),
@@ -212,7 +215,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8b1be003-94ea-49c1-bad2-3a689707b9a0"),
+                            Id = new Guid("31923144-b0fd-4f24-a6bb-ae77320d2f47"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude1 = 0.0,
@@ -234,7 +237,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bd6a92ba-8161-49ea-9108-b4ab07aefd63"),
+                            Id = new Guid("e764de5f-3790-4081-a96c-0badb4076771"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude1 = 0.0,
@@ -327,7 +330,7 @@ namespace RFRAP.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("87431c3d-7bf7-4383-b6e7-95b845b3352b"),
+                            Id = new Guid("7c6fd30d-b9a0-4252-84c6-a5cc50358f10"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 54.996371000000003,
@@ -338,7 +341,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("870ec846-559e-4e8f-bf23-0faa6a287f17"),
+                            Id = new Guid("9cb8e728-9dac-435d-b38e-213c21ff0115"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 54.989184000000002,
@@ -349,7 +352,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("71ee3c0c-cb72-4767-8f24-24969bce4c66"),
+                            Id = new Guid("f9b15bc7-a267-4827-b6c7-67ce39ae2de0"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 54.987986999999997,
@@ -360,7 +363,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("433bc556-0ade-4803-8bd8-147c09644355"),
+                            Id = new Guid("1ae1428d-2dff-4c40-b7b7-8c2834dec16d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 54.945492999999999,
@@ -371,7 +374,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("55b0136d-336f-41b4-ba37-90e8c0f36030"),
+                            Id = new Guid("abd2e6d8-f530-48af-9a5d-c1129ca41fd7"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 55.233764999999998,
@@ -382,7 +385,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1ad0c929-c66a-4a8d-98e5-4c3f5625950e"),
+                            Id = new Guid("75df5128-4df2-4e88-b368-094f64df4a9c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 54.951769053652228,
@@ -393,7 +396,7 @@ namespace RFRAP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bd5e3c9a-312e-4b54-96f7-de52417d9567"),
+                            Id = new Guid("3e6a6163-082e-4fa8-a632-7d3360b9d826"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastlyEditedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 55.010850387932749,

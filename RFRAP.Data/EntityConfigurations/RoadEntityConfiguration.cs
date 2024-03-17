@@ -19,7 +19,7 @@ public class RoadEntityConfiguration : IEntityTypeConfiguration<Road>
             .HasForeignKey(s => s.RoadId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasQueryFilter(r => r.DeletedAt != null);
+        builder.HasQueryFilter(r => r.DeletedAt == null);
 
         builder.HasData(new Road
         {
