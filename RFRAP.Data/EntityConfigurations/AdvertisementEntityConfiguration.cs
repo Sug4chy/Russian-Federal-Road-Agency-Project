@@ -17,6 +17,6 @@ public class AdvertisementEntityConfiguration : IEntityTypeConfiguration<Adverti
             .HasForeignKey(a => a.RoadId);
 
         builder.HasQueryFilter(a => a.ExpirationDateTime > DateTime.UtcNow 
-                                    && a.DeletedAt != null);
+                                    && a.DeletedAt == null);
     }
 }

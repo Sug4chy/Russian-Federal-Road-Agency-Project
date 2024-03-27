@@ -223,7 +223,10 @@ namespace RFRAP.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SegmentId")
+                    b.Property<Guid>("RoadId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SegmentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Type")
@@ -231,6 +234,8 @@ namespace RFRAP.Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoadId");
 
                     b.HasIndex("SegmentId");
 
@@ -283,11 +288,17 @@ namespace RFRAP.Data.Migrations
 
             modelBuilder.Entity("RFRAP.Data.Entities.VerifiedPoint", b =>
                 {
-                    b.HasOne("RFRAP.Data.Entities.Segment", "Segment")
+                    b.HasOne("RFRAP.Data.Entities.Road", "Road")
                         .WithMany("VerifiedPoints")
-                        .HasForeignKey("SegmentId")
+                        .HasForeignKey("RoadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("RFRAP.Data.Entities.Segment", "Segment")
+                        .WithMany("VerifiedPoints")
+                        .HasForeignKey("SegmentId");
+
+                    b.Navigation("Road");
 
                     b.Navigation("Segment");
                 });
@@ -297,6 +308,8 @@ namespace RFRAP.Data.Migrations
                     b.Navigation("Advertisements");
 
                     b.Navigation("Segments");
+
+                    b.Navigation("VerifiedPoints");
                 });
 
             modelBuilder.Entity("RFRAP.Data.Entities.Segment", b =>

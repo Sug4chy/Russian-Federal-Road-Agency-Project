@@ -9,7 +9,8 @@ public class VerifiedPoint : AuditableEntity
     public double Longitude { get; set; }
     public double Latitude { get; set; }
     public VerifiedPointType Type { get; set; }
-    
-    public Guid SegmentId { get; set; }
+    public Guid? SegmentId { get; set; }
     public Segment? Segment { get; set; }
+    public Guid RoadId { get; set; }
+    public Road? Road { get; set; }
 }

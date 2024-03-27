@@ -8,4 +8,5 @@ public class Road : AuditableEntity
     public required string Name { get; set; }
     public ICollection<Segment>? Segments { get; set; }
     public ICollection<Advertisement>? Advertisements { get; set; }
+    public ICollection<VerifiedPoint>? VerifiedPoints { get; set; }
 }

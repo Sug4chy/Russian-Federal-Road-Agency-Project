@@ -14,6 +14,7 @@ public class VerifiedPointsMapper : IMapper<VerifiedPoint, VerifiedPointDto>
                 Longitude = from.Longitude,
                 Latitude = from.Latitude
             },
-            Type = from.Type
+            Type = from.Type,
+            RoadName = from.Road!.Name
         };
 }

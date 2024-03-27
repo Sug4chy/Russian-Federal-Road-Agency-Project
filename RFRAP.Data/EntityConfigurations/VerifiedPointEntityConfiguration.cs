@@ -15,9 +15,16 @@ public class VerifiedPointEntityConfiguration : IEntityTypeConfiguration<Verifie
         builder
             .HasOne(vp => vp.Segment)
             .WithMany(s => s.VerifiedPoints)
-            .HasForeignKey(vp => vp.SegmentId);
+            .HasForeignKey(vp => vp.SegmentId)
+            .IsRequired(false);
+
+        builder
+            .HasOne(vp => vp.Road)
+            .WithMany(r => r.VerifiedPoints)
+            .HasForeignKey(vp => vp.RoadId)
+            .IsRequired();
 
         builder.Property(vp => vp.Type).HasConversion<string>();
-        builder.HasQueryFilter(vp => vp.DeletedAt != null);
+        builder.HasQueryFilter(vp => vp.DeletedAt == null);
     }
 }

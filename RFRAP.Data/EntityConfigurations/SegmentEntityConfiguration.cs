@@ -25,6 +25,6 @@ public class SegmentEntityConfiguration : IEntityTypeConfiguration<Segment>
             .HasMany(s => s.UnverifiedPoints)
             .WithOne(up => up.Segment);
 
-        builder.HasQueryFilter(s => s.DeletedAt != null);
+        builder.HasQueryFilter(s => s.DeletedAt == null);
     }
 }

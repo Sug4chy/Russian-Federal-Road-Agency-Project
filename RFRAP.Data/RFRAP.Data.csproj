@@ -15,4 +15,10 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\20240215140824_AuthTest.Designer.cs" />
+      <Compile Remove="Migrations\20240224064826_AuthUserRole.Designer.cs" />
+      <Compile Remove="Migrations\20240312182113_AuditableUser.Designer.cs" />
+    </ItemGroup>
+
 </Project>

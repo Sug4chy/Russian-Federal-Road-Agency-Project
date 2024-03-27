@@ -18,6 +18,7 @@ using RFRAP.Domain.Services.Segments;
 using RFRAP.Domain.Services.UnverifiedPoints;
 using RFRAP.Domain.Services.VerifiedPoints;
 using RFRAP.Domain.Validators.Files;
+using RFRAP.Domain.Validators.Manager;
 using RFRAP.Domain.Validators.Mobile;
 using RFRAP.Domain.Validators.Roads;
 using RFRAP.Domain.Validators.Utility;
@@ -57,7 +58,9 @@ public static class DependencyInjection
             .AddScoped<IValidator<GetAdvertisementsByRoadNameRequest>, 
                 GetAdvertisementsByRoadNameRequestValidator>()
             .AddScoped<IValidator<GetVerifiedPointsInRadiusRequest>, 
-                GetVerifiedPointsInRadiusRequestValidator>();
+                GetVerifiedPointsInRadiusRequestValidator>()
+            .AddScoped<IValidator<VerifiedPointDto>, VerifiedPointDtoValidator>()
+            .AddScoped<IValidator<ManagerVerifiedPointDto>, ManagerVerifiedPointDtoValidator>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services

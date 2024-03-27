@@ -5,10 +5,10 @@ namespace RFRAP.Domain.Validators;
 
 public static class ValidationDefaults
 {
-    private static bool BeLongitude(double x)
+    public static bool BeLongitude(double x)
         => x is >= 0D and <= 180D;
 
-    private static bool BeLatitude(double y)
+    public static bool BeLatitude(double y)
         => y is >= -90D and <= 90D;
 
     public static bool BeValidPoint(PointDto point)
