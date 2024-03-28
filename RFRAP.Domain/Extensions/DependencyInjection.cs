@@ -59,8 +59,7 @@ public static class DependencyInjection
                 GetAdvertisementsByRoadNameRequestValidator>()
             .AddScoped<IValidator<GetVerifiedPointsInRadiusRequest>, 
                 GetVerifiedPointsInRadiusRequestValidator>()
-            .AddScoped<IValidator<VerifiedPointDto>, VerifiedPointDtoValidator>()
-            .AddScoped<IValidator<ManagerVerifiedPointDto>, ManagerVerifiedPointDtoValidator>();
+            .AddScoped<IValidator<VerifiedPointDto>, VerifiedPointDtoValidator>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services

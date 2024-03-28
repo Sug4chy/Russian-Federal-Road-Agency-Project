@@ -38,16 +38,15 @@ public class ManagerController([FromServices] IVerifiedPointsService verifiedPoi
     }
 
     [HttpGet("{verifiedPointId}")]
-    public async Task<ManagerVerifiedPointDto> GetVerifiedPointAsync(
+    public async Task<VerifiedPointDto> GetVerifiedPointAsync(
         Guid verifiedPointId,
         CancellationToken ct = default)
     {
         var point = await verifiedPointsService.GetVerifiedPointAsync(verifiedPointId, ct);
         NotFoundException.ThrowIfNull(point, PointErrors.NoSuchPointWithId(verifiedPointId));
 
-        return new ManagerVerifiedPointDto
+        return new VerifiedPointDto
         {
-            Id = verifiedPointId,
             Name = point!.Name,
             Coordinates = new PointDto
             {
@@ -59,19 +58,20 @@ public class ManagerController([FromServices] IVerifiedPointsService verifiedPoi
         };
     }
 
-    [HttpPut]
+    [HttpPut("{verifiedPointId}")]
     public async Task EditVerifiedPointAsync(
-        [FromBody] ManagerVerifiedPointDto pointDto,
+        Guid verifiedPointId,
+        [FromBody] VerifiedPointDto pointDto,
         [FromServices] IRoadService roadService,
         [FromServices] ISegmentService segmentService,
-        [FromServices] IValidator<ManagerVerifiedPointDto> validator,
+        [FromServices] IValidator<VerifiedPointDto> validator,
         CancellationToken ct = default)
     {
         var validationResult = await validator.ValidateAsync(pointDto, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
         
-        var point = await verifiedPointsService.GetVerifiedPointAsync(pointDto.Id, ct);
-        NotFoundException.ThrowIfNull(point, PointErrors.NoSuchPointWithId(pointDto.Id));
+        var point = await verifiedPointsService.GetVerifiedPointAsync(verifiedPointId, ct);
+        NotFoundException.ThrowIfNull(point, PointErrors.NoSuchPointWithId(verifiedPointId));
 
         var road = await roadService.GetRoadByNameAsync(pointDto.RoadName, ct);
         NotFoundException.ThrowIfNull(road, RoadErrors.NoSuchRoadWithName(pointDto.RoadName));

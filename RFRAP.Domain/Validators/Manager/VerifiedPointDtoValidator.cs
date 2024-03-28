@@ -12,8 +12,6 @@ public class VerifiedPointDtoValidator : AbstractValidator<VerifiedPointDto>
         //TODO Make avaliable: " ", russian letters, numbers; prohibit everything else.
         RuleFor(vp => vp.Coordinates)
             .Must(ValidationDefaults.BeValidPoint);
-        RuleFor(vp => vp.Type)
-            .IsInEnum();
         RuleFor(vp => vp.RoadName)
             .NotEmpty();
     }

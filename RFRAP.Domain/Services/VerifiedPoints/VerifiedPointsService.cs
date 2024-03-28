@@ -43,28 +43,31 @@ public class VerifiedPointsService(
 
     public async Task EditVerifiedPointAsync(
         VerifiedPoint point, 
-        ManagerVerifiedPointDto dto,
+        VerifiedPointDto dto,
         Road road,
         Segment? segment, 
         CancellationToken ct = default)
     {
-        context.Entry(point).CurrentValues.SetValues(dto);
-        point.RoadId = dto.Id;
+        point.Name = dto.Name;
         point.Longitude = dto.Coordinates.Longitude;
         point.Latitude = dto.Coordinates.Latitude;
+        point.Type = dto.Type;
+        point.RoadId = road.Id;
+        point.Road = road;
         
         if(segment is not null)
         {
             point.SegmentId = segment.Id;
             point.Segment = segment;
         }
-        
+
+        await Task.Run(() => context.Update(point), ct);
         await context.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteVerifiedPointAsync(VerifiedPoint verifiedPoint, CancellationToken ct)
+    public async Task DeleteVerifiedPointAsync(VerifiedPoint verifiedPoint, CancellationToken ct = default)
     {
-        context.VerifiedPoints.Remove(verifiedPoint);
+        await Task.Run(() => context.VerifiedPoints.Remove(verifiedPoint), ct);
         await context.SaveChangesAsync(ct);
     }
 
