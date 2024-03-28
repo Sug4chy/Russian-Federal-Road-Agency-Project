@@ -9,4 +9,5 @@ public interface IUnverifiedPointsService
         UnverifiedPointDto pointDto, Segment segment, CancellationToken ct = default);
 
     Task<UnverifiedPoint?> GetPointByIdAsync(Guid pointId, CancellationToken ct = default);
+    Task<UnverifiedPoint[]> GetUnverifiedPointsAsync(CancellationToken ct = default);
 }

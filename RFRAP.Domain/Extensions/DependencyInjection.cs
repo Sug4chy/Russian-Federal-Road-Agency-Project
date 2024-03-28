@@ -63,5 +63,6 @@ public static class DependencyInjection
         => services
             .AddScoped<IMapper<VerifiedPoint, VerifiedPointDto>, VerifiedPointsMapper>()
             .AddScoped<IMapper<Advertisement, AdvertisementDto>, AdvertisementsMapper>()
-            .AddScoped<IMapper<VerifiedPoint, MobileVerifiedPointDto>, MobileVerifiedPointMapper>();
+            .AddScoped<IMapper<VerifiedPoint, MobileVerifiedPointDto>, MobileVerifiedPointMapper>()
+            .AddScoped<IMapper<UnverifiedPoint, UnverifiedPointDto>, UnverifiedPointsMapper>();
 }

@@ -30,4 +30,9 @@ public class UnverifiedPointsService(AppDbContext context) : IUnverifiedPointsSe
         => context.UnverifiedPoints
             .Include(up => up.File)
             .FirstOrDefaultAsync(up => up.Id == pointId, ct);
+
+    public Task<UnverifiedPoint[]> GetUnverifiedPointsAsync(CancellationToken ct = default)
+        => context.UnverifiedPoints
+            .Where(up => up.IsVerified == false)
+            .ToArrayAsync(ct);
 }
